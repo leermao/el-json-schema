@@ -1,4 +1,8 @@
+/* eslint-disable */
+import {hasChildren} from './utils'
 export default {
+  name: 'formJsonSchema',
+  
   props: {
     value: {
       type: Array,
@@ -38,7 +42,7 @@ export default {
       }
 
       this.value.map(item => {
-        if (tagsMap[item.tag]) {
+        if (tagsMap[item.tag] && hasChildren(item)) {
           const formItem = h(
             'el-form-item',
             {
@@ -51,6 +55,10 @@ export default {
       });
 
       return children;
-    }
+    },
+
+    handleRenderInput() {},
+
+    handleRenderSelect() {}
   }
 };

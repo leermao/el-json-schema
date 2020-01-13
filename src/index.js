@@ -1,3 +1,4 @@
+/* eslint-disable */
 import FormsShema from './formschema'
 
 const install = function installFormsShema (Vue) {
