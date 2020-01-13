@@ -1,9 +1,17 @@
-/* eslint-disable */
-import Vue from 'vue'
-import App from './App.vue'
-
-Vue.config.productionTip = false
+import Vue from "vue";
+import App from "./App.vue";
+import "./registerServiceWorker";
+import router from "./router";
+import store from "./store";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import FormsShema from "./util/index.js";
+Vue.config.productionTip = false;
+Vue.use(FormsShema);
+Vue.use(ElementUI);
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  router,
+  store,
+  render: h => h(App)
+}).$mount("#app");
