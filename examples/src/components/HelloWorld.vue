@@ -14,7 +14,8 @@ export default {
         {
           tag: "el-input",
           props: {
-            size: "small"
+            size: "small",
+            placeholder: "测试输入框"
           },
           events: {
             blur() {
@@ -78,12 +79,111 @@ export default {
           },
           model: "select2",
           label: "选择框2"
+        },
+        {
+          tag: "el-date-picker",
+          props: {
+            size: "small",
+            placeholder: "日期选择"
+          },
+          events: {},
+          rule: [],
+          render: () => {},
+          options: [],
+          model: "picker",
+          label: "日期选择"
+        },
+        {
+          tag: "el-switch",
+          props: {
+            size: "small",
+            placeholder: "日期选择"
+          },
+          events: {},
+          rule: [],
+          render: () => {},
+          options: [],
+          model: "switch",
+          label: "开关"
+        },
+        {
+          tag: "el-radio",
+          props: {
+            placeholder: "单选框"
+          },
+          events: {},
+          rule: [],
+          render: () => {},
+          options: ["上海", "北京", "广州", "深圳"],
+          model: "radio",
+          label: "单选框Array"
+        },
+        {
+          tag: "el-radio",
+          props: {
+            placeholder: "单选框"
+          },
+          events: {},
+          rule: [],
+          render: () => {},
+          options: ["北京", "广州", "深圳"],
+          model: "radio1",
+          label: "单选框Array-OBJ"
+        },
+        {
+          tag: "el-checkbox1",
+          props: {
+            size: "small",
+            placeholder: "复选框"
+          },
+          events: {},
+          rule: [],
+          render: () => {},
+          options: ["上海", "北京", "广州", "深圳"],
+          model: "radio",
+          label: "复选框Array"
+        },
+        {
+          tag: "el-checkbox1",
+          props: {
+            size: "small",
+            placeholder: "复选框"
+          },
+          events: {},
+          rule: [],
+          render: () => {},
+          options: ["北京", "广州", "深圳"],
+          model: "checkbox1",
+          label: "复选框Array-OBJ"
+        },
+        {
+          tag: "el-checkbox1",
+          props: {
+            size: "small",
+            placeholder: "复选框"
+          },
+          events: {},
+          rule: [],
+          render: () => {},
+          options: {
+            1: "选项1",
+            2: "选项2",
+            3: "选项3"
+          },
+          model: "checkbox2",
+          label: "复选框Obj"
         }
       ],
       formValues: {
-        name: "Some Awesome Title",
+        name: "",
         select1: "",
-        select2: ""
+        select2: "",
+        picker: "",
+        switch: "",
+        checkbox: "",
+        checkbox1: "",
+        checkbox2: "",
+        radio: ""
       }
     };
   },

@@ -1,3 +1,7 @@
+const setVal = (item, val) => {
+  return typeof item === "object" ? item[val] : item;
+};
+
 export default {
   name: "formJsonSchemas",
   props: {
@@ -21,7 +25,7 @@ export default {
       {
         props: {
           model: this.formData,
-          labelWidth: "80px"
+          labelWidth: "180px"
         },
         ref: "formData"
       },
@@ -60,6 +64,9 @@ export default {
         h(
           "el-button",
           {
+            props: {
+              size: "small"
+            },
             on: {
               click() {
                 vm.$refs.formData.resetFields();
@@ -72,6 +79,10 @@ export default {
         h(
           "el-button",
           {
+            props: {
+              size: "small",
+              type: "primary"
+            },
             on: {
               click() {
                 vm.$emit("submit", { ...vm.formData });
@@ -89,9 +100,12 @@ export default {
       const vm = this;
       const children = [];
       const tagsMap = {
-        "el-input": vm.handleRenderInput,
+        "el-input": vm.handleRenderCommonItems,
         "el-select": vm.handleRenderSelect,
-        "el-checkbox": vm.handleRenderCheckBox
+        "el-date-picker": vm.handleRenderCommonItems,
+        "el-switch": vm.handleRenderCommonItems,
+        "el-checkbox": vm.handleRenderCheckBox,
+        "el-radio": vm.handleRenderRadio
       };
 
       vm.schemas.map(item => {
@@ -129,9 +143,9 @@ export default {
     },
 
     /**
-     * 输入框
+     * 输入框/日期
      */
-    handleRenderInput(h, item) {
+    handleRenderCommonItems(h, item) {
       const { modelEvents, value } = this.handleModel(item);
 
       return [
@@ -153,37 +167,7 @@ export default {
      */
     handleRenderSelect(h, item) {
       const { modelEvents, value } = this.handleModel(item);
-      let children = [];
-
-      if (Array.isArray(item.options)) {
-        const items = item.options || [];
-        items.map(option => {
-          const ArrOption = h("el-option", {
-            props: {
-              value: option.value || option["value"],
-              label: option.label || option["label"],
-              ...item.props,
-              key: option.value
-            }
-          });
-
-          children.push(ArrOption);
-        });
-      } else {
-        const items = item.options || {};
-        for (let i in items) {
-          const objOption = h("el-option", {
-            props: {
-              value: i,
-              key: i,
-              label: items[i],
-              ...item.props
-            }
-          });
-
-          children.push(objOption);
-        }
-      }
+      let children = this.handleRenderChildren(h, item, "el-option");
 
       return [
         h(
@@ -202,9 +186,91 @@ export default {
         )
       ];
     },
+
+    handleRenderChildren(h, item, tag) {
+      let children = [];
+      let options = [];
+
+      if (Array.isArray(item.options)) {
+        options = item.options || [];
+      } else {
+        const items = item.options || {};
+        for (let i in items) {
+          const objOption = {
+            type: "object",
+            value: i,
+            label: items[i]
+          };
+
+          options.push(objOption);
+        }
+      }
+
+      options.map(option => {
+        const object = { ...option };
+        const ArrOption = h(tag, {
+          props: {
+            value: setVal(object, item.value || "value"),
+            label: setVal(object, item.label || "label"),
+            key: setVal(object, item.label || "value"),
+            ...item.props
+          }
+        });
+
+        children.push(ArrOption);
+      });
+
+      return children;
+    },
+
     /**
-     * 复选框
+     * radio
      */
-    handleRenderCheckBox() {}
+    handleRenderRadio(h, item) {
+      const { modelEvents, value } = this.handleModel(item);
+      let children = this.handleRenderChildren(h, item, "el-radio");
+
+      return [
+        h(
+          "el-radio-group",
+          {
+            props: {
+              value,
+              ...item.props
+            },
+            on: {
+              ...modelEvents,
+              ...item.events
+            }
+          },
+          children
+        )
+      ];
+    },
+
+    /**
+     * checkbox
+     */
+    handleRenderCheckBox(h, item) {
+      const { modelEvents, value } = this.handleModel(item);
+      let children = this.handleRenderChildren(h, item, "el-checkbox");
+
+      return [
+        h(
+          "el-checkbox-group",
+          {
+            props: {
+              value,
+              ...item.props
+            },
+            on: {
+              ...modelEvents,
+              ...item.events
+            }
+          },
+          children
+        )
+      ];
+    }
   }
 };
