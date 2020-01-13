@@ -1,7 +1,3 @@
-const setVal = (item, val) => {
-  return typeof item === "object" ? item[val] : item;
-};
-
 export default {
   name: "formJsonSchemas",
   props: {
@@ -192,7 +188,24 @@ export default {
       let options = [];
 
       if (Array.isArray(item.options)) {
-        options = item.options || [];
+        (item.options || []).map(option => {
+          let arrItem = {};
+          if (typeof option === "object") {
+            arrItem = {
+              type: "array",
+              value: item.keyVal ? option[item.keyVal] : option["value"],
+              label: item.labelVal ? option[item.labelVal] : option["label"]
+            };
+          } else {
+            arrItem = {
+              type: "base",
+              value: option,
+              label: option
+            };
+          }
+
+          options.push(arrItem);
+        });
       } else {
         const items = item.options || {};
         for (let i in items) {
@@ -205,15 +218,13 @@ export default {
           options.push(objOption);
         }
       }
-
       options.map(option => {
         const object = { ...option };
         const ArrOption = h(tag, {
           props: {
-            value: setVal(object, item.value || "value"),
-            label: setVal(object, item.label || "label"),
-            key: setVal(object, item.label || "value"),
-            ...item.props
+            value: object["value"],
+            label: object["label"],
+            key: object["value"]
           }
         });
 

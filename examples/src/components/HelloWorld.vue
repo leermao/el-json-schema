@@ -131,7 +131,7 @@ export default {
           label: "单选框Array-OBJ"
         },
         {
-          tag: "el-checkbox1",
+          tag: "el-checkbox",
           props: {
             size: "small",
             placeholder: "复选框"
@@ -140,11 +140,11 @@ export default {
           rule: [],
           render: () => {},
           options: ["上海", "北京", "广州", "深圳"],
-          model: "radio",
+          model: "checkbox",
           label: "复选框Array"
         },
         {
-          tag: "el-checkbox1",
+          tag: "el-checkbox",
           props: {
             size: "small",
             placeholder: "复选框"
@@ -157,7 +157,7 @@ export default {
           label: "复选框Array-OBJ"
         },
         {
-          tag: "el-checkbox1",
+          tag: "el-checkbox",
           props: {
             size: "small",
             placeholder: "复选框"
@@ -180,10 +180,11 @@ export default {
         select2: "",
         picker: "",
         switch: "",
+        radio: "",
+        radio1: "",
         checkbox: "",
         checkbox1: "",
-        checkbox2: "",
-        radio: ""
+        checkbox2: ""
       }
     };
   },
