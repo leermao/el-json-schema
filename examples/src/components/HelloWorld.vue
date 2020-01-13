@@ -22,7 +22,14 @@ export default {
               console.log("事件");
             }
           },
-          rule: [],
+          rule: [
+            { required: true, message: "请输入邮箱地址", trigger: "blur" },
+            {
+              type: "email",
+              message: "请输入正确的邮箱地址",
+              trigger: ["blur", "change"]
+            }
+          ],
           render: () => {},
           options: [],
           model: "name",
