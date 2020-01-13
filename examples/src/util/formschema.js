@@ -113,10 +113,8 @@ export default {
 
       return children;
     },
-    /**
-     * 输入框
-     */
-    handleRenderInput(h, item) {
+
+    handleModel(item) {
       const vm = this;
       const value = vm.formData[item.model] || null;
       const modelEvents = {
@@ -124,6 +122,17 @@ export default {
           vm.formData[item.model] = value;
         }
       };
+      return {
+        value,
+        modelEvents
+      };
+    },
+
+    /**
+     * 输入框
+     */
+    handleRenderInput(h, item) {
+      const { modelEvents, value } = this.handleModel(item);
 
       return [
         h(item.tag, {
@@ -138,10 +147,61 @@ export default {
         })
       ];
     },
+
     /**
      * 选择框
      */
-    handleRenderSelect() {},
+    handleRenderSelect(h, item) {
+      const { modelEvents, value } = this.handleModel(item);
+      let children = [];
+
+      if (Array.isArray(item.options)) {
+        const items = item.options || [];
+        items.map(option => {
+          const ArrOption = h("el-option", {
+            props: {
+              value: option.value || option["value"],
+              label: option.label || option["label"],
+              ...item.props,
+              key: option.value
+            }
+          });
+
+          children.push(ArrOption);
+        });
+      } else {
+        const items = item.options || {};
+        for (let i in items) {
+          const objOption = h("el-option", {
+            props: {
+              value: i,
+              key: i,
+              label: items[i],
+              ...item.props
+            }
+          });
+
+          children.push(objOption);
+        }
+      }
+
+      return [
+        h(
+          item.tag,
+          {
+            props: {
+              value,
+              ...item.props
+            },
+            on: {
+              ...modelEvents,
+              ...item.events
+            }
+          },
+          children
+        )
+      ];
+    },
     /**
      * 复选框
      */

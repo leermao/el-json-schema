@@ -14,10 +14,6 @@ export default {
         {
           tag: "el-input",
           props: {
-            placeholder: "输入placeholder",
-            clearable: true,
-            "show-password": true,
-            // disabled: true,
             size: "small"
           },
           events: {
@@ -30,10 +26,64 @@ export default {
           options: [],
           model: "name",
           label: "输入框"
+        },
+        {
+          tag: "el-select",
+          props: {
+            size: "small",
+            multiple: true,
+            placeholder: "测试输入框为数组的情况"
+          },
+          events: {},
+          rule: [],
+          render: () => {},
+          options: [
+            {
+              value: "选项1",
+              label: "黄金糕"
+            },
+            {
+              value: "选项2",
+              label: "双皮奶"
+            },
+            {
+              value: "选项3",
+              label: "蚵仔煎"
+            },
+            {
+              value: "选项4",
+              label: "龙须面"
+            },
+            {
+              value: "选项5",
+              label: "北京烤鸭"
+            }
+          ],
+          model: "select1",
+          label: "选择框1"
+        },
+        {
+          tag: "el-select",
+          props: {
+            size: "small",
+            placeholder: "测试输入框为对象的情况"
+          },
+          events: {},
+          rule: [],
+          render: () => {},
+          options: {
+            1: "选项1",
+            2: "选项2",
+            3: "选项3"
+          },
+          model: "select2",
+          label: "选择框2"
         }
       ],
       formValues: {
-        name: "Some Awesome Title"
+        name: "Some Awesome Title",
+        select1: "",
+        select2: ""
       }
     };
   },
