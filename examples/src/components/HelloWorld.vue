@@ -142,36 +142,6 @@ export default {
           options: ["上海", "北京", "广州", "深圳"],
           model: "checkbox",
           label: "复选框Array"
-        },
-        {
-          tag: "el-checkbox",
-          props: {
-            size: "small",
-            placeholder: "复选框"
-          },
-          events: {},
-          rule: [],
-          render: () => {},
-          options: ["北京", "广州", "深圳"],
-          model: "checkbox1",
-          label: "复选框Array-OBJ"
-        },
-        {
-          tag: "el-checkbox",
-          props: {
-            size: "small",
-            placeholder: "复选框"
-          },
-          events: {},
-          rule: [],
-          render: () => {},
-          options: {
-            1: "选项1",
-            2: "选项2",
-            3: "选项3"
-          },
-          model: "checkbox2",
-          label: "复选框Obj"
         }
       ],
       formValues: {

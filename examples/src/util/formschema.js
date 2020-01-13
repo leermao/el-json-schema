@@ -100,7 +100,6 @@ export default {
         "el-select": vm.handleRenderSelect,
         "el-date-picker": vm.handleRenderCommonItems,
         "el-switch": vm.handleRenderCommonItems,
-        "el-checkbox": vm.handleRenderCheckBox,
         "el-radio": vm.handleRenderRadio
       };
 
@@ -116,7 +115,6 @@ export default {
             },
             [...tagsMap[item.tag](h, item)]
           );
-
           children.push(formItem);
         }
       });
@@ -183,8 +181,7 @@ export default {
       ];
     },
 
-    handleRenderChildren(h, item, tag) {
-      let children = [];
+    handleResetOptions(h, item) {
       let options = [];
 
       if (Array.isArray(item.options)) {
@@ -218,6 +215,14 @@ export default {
           options.push(objOption);
         }
       }
+
+      return options;
+    },
+
+    handleRenderChildren(h, item, tag) {
+      let children = [];
+      let options = this.handleResetOptions(h, item);
+
       options.map(option => {
         const object = { ...option };
         const ArrOption = h(tag, {
@@ -244,31 +249,6 @@ export default {
       return [
         h(
           "el-radio-group",
-          {
-            props: {
-              value,
-              ...item.props
-            },
-            on: {
-              ...modelEvents,
-              ...item.events
-            }
-          },
-          children
-        )
-      ];
-    },
-
-    /**
-     * checkbox
-     */
-    handleRenderCheckBox(h, item) {
-      const { modelEvents, value } = this.handleModel(item);
-      let children = this.handleRenderChildren(h, item, "el-checkbox");
-
-      return [
-        h(
-          "el-checkbox-group",
           {
             props: {
               value,
