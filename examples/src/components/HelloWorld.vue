@@ -28,7 +28,6 @@ export default {
               trigger: ["blur", "change"]
             }
           ],
-          render: () => {},
           options: [],
           model: "name",
           label: "输入框"
@@ -42,7 +41,6 @@ export default {
           },
           events: {},
           rule: [],
-          render: () => {},
           options: [
             {
               value: "选项1",
@@ -76,7 +74,6 @@ export default {
           },
           events: {},
           rule: [],
-          render: () => {},
           options: {
             1: "选项1",
             2: "选项2",
@@ -93,7 +90,6 @@ export default {
           },
           events: {},
           rule: [],
-          render: () => {},
           options: [],
           model: "picker",
           label: "日期选择"
@@ -106,7 +102,6 @@ export default {
           },
           events: {},
           rule: [],
-          render: () => {},
           options: [],
           model: "switch",
           label: "开关"
@@ -118,7 +113,6 @@ export default {
           },
           events: {},
           rule: [],
-          render: () => {},
           options: ["上海", "北京", "广州", "深圳"],
           model: "radio",
           label: "单选框Array"
@@ -130,7 +124,6 @@ export default {
           },
           events: {},
           rule: [],
-          render: () => {},
           options: ["北京", "广州", "深圳"],
           model: "radio1",
           label: "单选框Array-OBJ"
@@ -143,7 +136,6 @@ export default {
           },
           events: {},
           rule: [],
-          render: () => {},
           options: ["上海", "北京", "广州", "深圳"],
           model: "checkbox",
           label: "复选框Array"
@@ -172,7 +164,9 @@ export default {
     };
   },
   methods: {
-    handleSubmit() {}
+    handleSubmit(data) {
+      console.log(data);
+    }
   }
 };
 </script>
