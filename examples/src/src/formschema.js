@@ -1,3 +1,11 @@
+const baseConfig = {
+  size: "mini",
+  labelWidth: "80px",
+  labelPosition: "right",
+  inline: false,
+  componentWidth: 12
+};
+
 export default {
   name: "formJsonSchemas",
   props: {
@@ -11,15 +19,12 @@ export default {
     },
     config: {
       type: Object,
-      default() {
-        return {
-          size: "size",
-          labelWidth: "150px",
-          labelPosition: "right",
-          inline: false,
-          componentWidth: 12
-        };
-      }
+      default: () => {}
+    }
+  },
+  computed: {
+    formConfig() {
+      return { ...baseConfig, ...this.config };
     }
   },
   data() {
@@ -29,8 +34,9 @@ export default {
   },
   render(h) {
     const {
-      config: { labelWidth, labelPosition, inline }
+      formConfig: { labelWidth, labelPosition, inline }
     } = this;
+    console.log(this.formConfig);
 
     return h(
       "el-form",
@@ -63,6 +69,12 @@ export default {
         this.$emit("input", formData);
       },
       deep: true
+    },
+    config: {
+      handler() {
+        console.log(1111);
+      },
+      deep: true
     }
   },
 
@@ -80,21 +92,23 @@ export default {
     renderButtomItems(h) {
       const vm = this;
       const {
-        config: { size }
+        formConfig: { size }
       } = vm;
 
       return [
         h(
           "el-form-item",
           {
-            props: {}
+            props: {
+              size
+            }
           },
           [
             h(
               "el-button",
               {
                 props: {
-                  size: size
+                  size
                 },
                 on: {
                   click() {
@@ -109,7 +123,7 @@ export default {
               "el-button",
               {
                 props: {
-                  size: size,
+                  size,
                   type: "primary"
                 },
                 on: {
@@ -136,7 +150,7 @@ export default {
      */
     renderFormItems(h) {
       const vm = this;
-      const { config } = vm;
+      const { formConfig } = vm;
       const children = [];
       const tagsMap = {
         "el-input": vm.handleRenderCommonItems,
@@ -150,10 +164,10 @@ export default {
       vm.schemas.map(item => {
         if (tagsMap[item.tag]) {
           const formItem = h(
-            config.inline ? "el-col" : "div",
+            formConfig.inline ? "el-col" : "div",
             {
               props: {
-                span: config.componentWidth
+                span: formConfig.componentWidth
               }
             },
             [
@@ -200,7 +214,7 @@ export default {
     handleRenderCommonItems(h, item) {
       const { modelEvents, value } = this.handleModel(item);
       const {
-        config: { size }
+        formConfig: { size }
       } = this;
 
       return [
@@ -225,7 +239,7 @@ export default {
       const { modelEvents, value } = this.handleModel(item);
       let children = this.handleRenderChildren(h, item, "el-option");
       const {
-        config: { size }
+        formConfig: { size }
       } = this;
 
       return [
@@ -310,7 +324,7 @@ export default {
      */
     handleRenderRadio(h, item) {
       const {
-        config: { size }
+        formConfig: { size }
       } = this;
       const { modelEvents, value } = this.handleModel(item);
       let children = this.handleRenderChildren(h, item, "el-radio");
