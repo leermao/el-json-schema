@@ -161,8 +161,11 @@ export default {
                 prop: item.model
               }
             },
-            [...tagsMap[item.tag](h, item)]
+            item.render
+              ? [item.render(h, item)]
+              : [...tagsMap[item.tag](h, item)]
           );
+
           children.push(formItem);
         }
       });
