@@ -16,7 +16,8 @@ export default {
           size: "size",
           labelWidth: "150px",
           labelPosition: "right",
-          inline: false
+          inline: false,
+          componentWidth: 12
         };
       }
     }
@@ -135,6 +136,7 @@ export default {
      */
     renderFormItems(h) {
       const vm = this;
+      const { config } = vm;
       const children = [];
       const tagsMap = {
         "el-input": vm.handleRenderCommonItems,
@@ -148,17 +150,27 @@ export default {
       vm.schemas.map(item => {
         if (tagsMap[item.tag]) {
           const formItem = h(
-            "el-form-item",
+            config.inline ? "el-col" : "div",
             {
               props: {
-                rules: [...(item.rule || [])],
-                label: item.label,
-                prop: item.model
+                span: config.componentWidth
               }
             },
-            item.render
-              ? [item.render(h, item)]
-              : [...tagsMap[item.tag](h, item)]
+            [
+              h(
+                "el-form-item",
+                {
+                  props: {
+                    rules: [...(item.rule || [])],
+                    label: item.label,
+                    prop: item.model
+                  }
+                },
+                item.render
+                  ? [item.render(h, item)]
+                  : [...tagsMap[item.tag](h, item)]
+              )
+            ]
           );
 
           children.push(formItem);
