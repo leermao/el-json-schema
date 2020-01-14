@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">基础用法</router-link> |
+      <router-link to="/about">UI界面快速生成</router-link>
     </div>
     <router-view />
   </div>
@@ -18,6 +18,7 @@
 
 #nav {
   padding: 30px;
+  text-align: center;
 
   a {
     font-weight: bold;
