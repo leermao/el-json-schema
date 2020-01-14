@@ -16,7 +16,7 @@ export default {
           size: "size",
           labelWidth: "150px",
           labelPosition: "right",
-          inline: true
+          inline: false
         };
       }
     }

@@ -142,8 +142,8 @@ export default {
         },
         {
           tag: "el-custom",
-          render: h => {
-            return h("div", 111);
+          render: (h, p) => {
+            return h("div", p.tag);
           },
           model: "custom",
           label: "自定义"
