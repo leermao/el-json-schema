@@ -85,7 +85,7 @@ export default {
     renderButtomItems(h) {
       const vm = this;
       const {
-        formConfig: { size }
+        formConfig: { size, labelWidth }
       } = vm;
 
       return [
@@ -93,7 +93,8 @@ export default {
           "el-form-item",
           {
             props: {
-              size
+              size,
+              labelWidth
             }
           },
           [

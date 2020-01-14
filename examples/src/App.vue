@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <el-header>Form-Json-Schema</el-header>
+
     <div id="nav">
       <router-link to="/">基础用法</router-link> |
       <router-link to="/about">UI界面快速生成</router-link>
@@ -28,5 +30,12 @@
       color: #42b983;
     }
   }
+}
+
+.el-header {
+  background: #42b983;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
 }
 </style>

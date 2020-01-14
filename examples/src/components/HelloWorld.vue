@@ -2,6 +2,7 @@
   <el-form-shema
     :schemas="schemas"
     v-model="formValues"
+    :config="config"
     @submit="handleSubmit"
   ></el-form-shema>
 </template>
@@ -10,6 +11,9 @@
 export default {
   data() {
     return {
+      config: {
+        labelWidth: "180px"
+      },
       schemas: [
         {
           tag: "el-input",

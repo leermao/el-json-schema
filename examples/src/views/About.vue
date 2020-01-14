@@ -6,8 +6,38 @@
         <el-col :span="8">
           <el-form-item label="表单类型">
             <el-radio-group v-model="form.type">
-              <el-radio value="1">列表查询</el-radio>
+              <el-radio label="1">列表查询</el-radio>
             </el-radio-group>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="8">
+          <el-form-item label="表单内组件的尺寸">
+            <el-select v-model="form.size" placeholder="表单内组件的尺寸">
+              <el-option label="medium" value="medium"></el-option>
+              <el-option label="small" value="small"></el-option>
+              <el-option label="mini" value="mini"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="8">
+          <el-form-item label="表单域标签的位置">
+            <el-select
+              v-model="form.labelPosition"
+              placeholder="表单域标签的位置"
+            >
+              <el-option label="right" value="right"></el-option>
+              <el-option label="left" value="left"></el-option>
+              <el-option label="top" value="top"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="8">
+          <el-form-item label="校验错误信息">
+            <el-switch v-model="form.showMessage" active-color="#13ce66">
+            </el-switch>
           </el-form-item>
         </el-col>
 
@@ -33,7 +63,7 @@
     </el-card>
 
     <el-card class="box-card">
-      <div class="setting">组件</div>
+      <div class="setting">添加组件（点击添加）</div>
       <div>
         <el-button @click="handleDrawer('input')">
           input
@@ -57,10 +87,6 @@
         </el-button>
       </div>
     </el-card>
-
-    <el-button type="warning" size="mini" @click="dialogVisible = true">
-      使用
-    </el-button>
 
     <el-card class="box-card">
       <div class="setting">当前组件UI</div>
@@ -100,11 +126,19 @@
       </el-row>
     </el-card>
 
-    <el-drawer :visible.sync="drawer" size="50%" custom-class="drawer-content">
-      <input-component @submit="handleSubmit"></input-component>
+    <el-drawer
+      :visible.sync="drawer"
+      :before-close="handleClose"
+      size="50%"
+      custom-class="drawer-content"
+    >
+      <input-component
+        v-if="tag === 'input'"
+        @submit="handleSubmit"
+      ></input-component>
     </el-drawer>
 
-    <el-dialog :visible.sync="dialogVisible" width="50%">
+    <el-dialog :visible.sync="dialogVisible" width="50%" v-if="dialogVisible">
       <markdown
         :form="form"
         :schemas="schemas"
@@ -119,12 +153,16 @@ import markdown from "../components/markdown.vue";
 export default {
   data() {
     return {
+      tag: "",
       drawer: false,
       form: {
         type: "1",
         inline: true,
         labelWidth: 80,
-        componentWidth: 24
+        componentWidth: 24,
+        size: "",
+        showMessage: false,
+        labelPosition: ""
       },
       schemas: [],
       formValues: {},
@@ -137,15 +175,23 @@ export default {
     }
   },
   methods: {
-    handleDrawer() {
+    handleDrawer(tag) {
+      this.tag = tag;
       this.drawer = true;
     },
 
     handleSubmit(data) {
       this.formValues[data.model] = "";
       this.schemas.push(data);
-      this.drawer = false;
+
+      this.handleClose();
     },
+
+    handleClose() {
+      this.drawer = false;
+      this.tag = "";
+    },
+
     handleRemove(index) {
       this.schemas.splice(index, 1);
     }
@@ -169,7 +215,7 @@ export default {
     width: 10px;
     height: 24px;
     background: red;
-    margin-right: 10px;
+    margin-right: 15px;
   }
 }
 
