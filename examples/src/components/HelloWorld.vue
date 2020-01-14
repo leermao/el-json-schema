@@ -149,6 +149,14 @@ export default {
           options: ["上海", "北京", "广州", "深圳"],
           model: "checkbox",
           label: "复选框Array"
+        },
+        {
+          tag: "el-custom",
+          render: h => {
+            return h("div", 111);
+          },
+          model: "custom",
+          label: "自定义"
         }
       ],
       formValues: {
