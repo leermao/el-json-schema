@@ -36,7 +36,6 @@ export default {
     const {
       formConfig: { labelWidth, labelPosition, inline }
     } = this;
-    console.log(this.formConfig);
 
     return h(
       "el-form",
@@ -67,12 +66,6 @@ export default {
       handler(formData) {
         this.updating = true;
         this.$emit("input", formData);
-      },
-      deep: true
-    },
-    config: {
-      handler() {
-        console.log(1111);
       },
       deep: true
     }
@@ -132,7 +125,6 @@ export default {
                       if (valid) {
                         vm.$emit("submit", { ...vm.formData });
                       } else {
-                        console.log("error submit!!");
                         return false;
                       }
                     });

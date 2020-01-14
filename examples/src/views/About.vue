@@ -35,18 +35,35 @@
     <el-card class="box-card">
       <div class="setting">组件</div>
       <div>
-        <el-button @click="handleDrawer('input')">input</el-button>
-        <el-button @click="handleDrawer('select')">select</el-button>
-        <el-button @click="handleDrawer('radio')">radio</el-button>
+        <el-button @click="handleDrawer('input')">
+          input
+          <i class="el-icon-plus"></i>
+        </el-button>
+        <el-button @click="handleDrawer('select')">
+          select
+          <i class="el-icon-plus"></i>
+        </el-button>
+        <el-button @click="handleDrawer('radio')">
+          radio
+          <i class="el-icon-plus"></i>
+        </el-button>
         <el-button @click="handleDrawer('date-picker')">
           date-picker
+          <i class="el-icon-plus"></i>
         </el-button>
-        <el-button @click="handleDrawer('switch')">switch</el-button>
+        <el-button @click="handleDrawer('switch')">
+          switch
+          <i class="el-icon-plus"></i>
+        </el-button>
       </div>
     </el-card>
 
+    <el-button type="warning" size="mini" @click="dialogVisible = true">
+      使用
+    </el-button>
+
     <el-card class="box-card">
-      <div class="setting">当前组件</div>
+      <div class="setting">当前组件UI</div>
       <el-row :gutter="30" v-if="schemas.length">
         <el-col :span="6">
           <div
@@ -54,7 +71,14 @@
             :key="index"
             class="current-components"
           >
-            <div class="component">{{ item.label }}</div>
+            <div class="component">
+              <div>
+                <div>标签: {{ item.tag }}</div>
+                <div>名称: {{ item.label }}</div>
+              </div>
+
+              <i class="el-icon-delete-solid" @click="handleRemove(index)"></i>
+            </div>
           </div>
         </el-col>
 
@@ -81,7 +105,11 @@
     </el-drawer>
 
     <el-dialog :visible.sync="dialogVisible" width="50%">
-      <markdown></markdown>
+      <markdown
+        :form="form"
+        :schemas="schemas"
+        :formValues="formValues"
+      ></markdown>
     </el-dialog>
   </div>
 </template>
@@ -116,8 +144,10 @@ export default {
     handleSubmit(data) {
       this.formValues[data.model] = "";
       this.schemas.push(data);
-
       this.drawer = false;
+    },
+    handleRemove(index) {
+      this.schemas.splice(index, 1);
     }
   },
   components: {
@@ -153,10 +183,13 @@ export default {
 
 .current-components {
   .component {
-    height: 40px;
     border-radius: 5px;
     background: #ddd;
     margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
   }
 }
 
