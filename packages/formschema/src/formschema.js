@@ -1,3 +1,5 @@
+import Render from "./render";
+
 export default {
   name: "formJsonSchemas",
   props: {
@@ -20,6 +22,9 @@ export default {
         };
       }
     }
+  },
+  components: {
+    Render
   },
   data() {
     return {
@@ -141,7 +146,8 @@ export default {
         "el-select": vm.handleRenderSelect,
         "el-date-picker": vm.handleRenderCommonItems,
         "el-switch": vm.handleRenderCommonItems,
-        "el-radio": vm.handleRenderRadio
+        "el-radio": vm.handleRenderRadio,
+        "el-custom": vm.handleRenderCustom
       };
 
       vm.schemas.map(item => {
@@ -315,6 +321,19 @@ export default {
           },
           children
         )
+      ];
+    },
+
+    /**
+     * 自定义部门
+     */
+    handleRenderCustom(h, item) {
+      return [
+        h("render", {
+          props: {
+            render: item.render
+          }
+        })
       ];
     }
   }
