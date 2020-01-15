@@ -1,6 +1,6 @@
 <template>
   <div class="input">
-    <box title="input">
+    <box title="input" type="danger">
       <el-form
         :model="ruleForm"
         :rules="rules"

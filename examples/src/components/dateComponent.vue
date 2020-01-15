@@ -1,6 +1,6 @@
 <template>
-  <div class="input">
-    <box title="input">
+  <div class="date">
+    <box title="date" type="danger">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -157,7 +157,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.input {
+.date {
   margin: 10px;
   height: 98%;
   box-sizing: border-box;
