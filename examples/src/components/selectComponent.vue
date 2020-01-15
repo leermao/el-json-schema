@@ -21,11 +21,12 @@
         </box>
 
         <box title="props" class="required">
-          <el-form-item label="type">
-            <el-select v-model="ruleForm.type" placeholder="请选择类型">
-              <el-option label="text" value="text"></el-option>
-              <el-option label="textarea" value="textarea"></el-option>
-            </el-select>
+          <el-form-item label="是否多选">
+            <el-switch v-model="ruleForm.multiple"> </el-switch>
+          </el-form-item>
+
+          <el-form-item label="禁用">
+            <el-switch v-model="ruleForm.disabled"> </el-switch>
           </el-form-item>
 
           <el-form-item label="输入框尺寸">
@@ -36,32 +37,32 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="maxlength">
-            <el-input-number v-model="ruleForm.maxlength"></el-input-number>
+          <el-form-item label="是否可清空">
+            <el-switch v-model="ruleForm.clearable"> </el-switch>
           </el-form-item>
 
-          <el-form-item label="minlength">
-            <el-input-number v-model="ruleForm.minlength"></el-input-number>
-          </el-form-item>
+          <div v-if="ruleForm.multiple">
+            <el-form-item label="是否将选中值按文字的形式展示">
+              <el-switch v-model="ruleForm.collapseTags"> </el-switch>
+            </el-form-item>
 
-          <el-form-item label="show-word-limit">
-            <el-switch v-model="ruleForm.showWordLimit"> </el-switch>
-          </el-form-item>
+            <el-form-item label="多选时用户最多可以选择的项目数">
+              <el-input-number
+                v-model="ruleForm.multipleLimit"
+              ></el-input-number>
+            </el-form-item>
+          </div>
 
           <el-form-item label="输入框占位文本">
             <el-input v-model="ruleForm.placeholder"></el-input>
           </el-form-item>
 
-          <el-form-item label="是否显示切换密码图标">
-            <el-switch v-model="ruleForm.showPassword"> </el-switch>
+          <el-form-item label="是否可搜索">
+            <el-switch v-model="ruleForm.filterable"> </el-switch>
           </el-form-item>
 
-          <el-form-item label="是否可清空">
-            <el-switch v-model="ruleForm.clearable"> </el-switch>
-          </el-form-item>
-
-          <el-form-item label="禁用">
-            <el-switch v-model="ruleForm.disabled"> </el-switch>
+          <el-form-item label="是否为远程搜索">
+            <el-switch v-model="ruleForm.remote"> </el-switch>
           </el-form-item>
         </box>
 
@@ -101,15 +102,16 @@ export default {
       ruleForm: {
         label: "",
         model: "",
-        type: "text",
-        showWordLimit: false,
+        rules: "",
+        multiple: false,
         disabled: false,
-        clearable: false,
-        showPassword: false,
-        minlength: "",
-        maxlength: "",
         size: "",
-        rules: ""
+        clearable: false,
+        collapseTags: false,
+        multipleLimit: 0,
+        placeholder: "",
+        filterable: false,
+        remote: false
       },
       rules: {
         label: [{ required: true, message: "请输入label", trigger: "blur" }],
@@ -132,7 +134,7 @@ export default {
       }
 
       return {
-        tag: "el-input",
+        tag: "el-select",
         props: prop,
         events: {},
         rule: rules,

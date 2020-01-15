@@ -35,13 +35,6 @@
         </el-col>
 
         <el-col :span="8">
-          <el-form-item label="校验错误信息">
-            <el-switch v-model="form.showMessage" active-color="#13ce66">
-            </el-switch>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="8">
           <el-form-item label="是否行内布局">
             <el-switch v-model="form.inline" active-color="#13ce66">
             </el-switch>
@@ -92,15 +85,16 @@
       <div class="setting">当前组件UI</div>
       <el-row :gutter="30" v-if="schemas.length">
         <el-col :span="6">
-          <div
-            v-for="(item, index) in schemas"
-            :key="index"
-            class="current-components"
-          >
-            <div class="component">
+          <div class="current-components">
+            <div
+              class="component"
+              v-for="(item, index) in schemas"
+              :key="index"
+            >
               <div>
                 <div>标签: {{ item.tag }}</div>
                 <div>名称: {{ item.label }}</div>
+                <div>v-model: {{ item.model }}</div>
               </div>
 
               <i class="el-icon-delete-solid" @click="handleRemove(index)"></i>
@@ -178,7 +172,6 @@ export default {
         labelWidth: 80,
         componentWidth: 24,
         size: "",
-        showMessage: false,
         labelPosition: ""
       },
       schemas: [],
@@ -249,6 +242,9 @@ export default {
 }
 
 .current-components {
+  border: 1px dashed #ddd;
+  padding: 10px;
+
   .component {
     border-radius: 5px;
     background: #ddd;
