@@ -5,8 +5,8 @@ import App from "./App.vue";
 import FormsShema from "./src/index.js";
 import marked from "./marked";
 
-Vue.use(ElementUI);
 Vue.use(FormsShema);
+Vue.use(ElementUI);
 Vue.use(marked);
 
 import router from "./router";
