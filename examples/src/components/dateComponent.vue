@@ -2,78 +2,96 @@
   <div class="date">
     <box title="date" type="danger">
       <el-form
-        :model="ruleForm"
+        :model="dateForm"
         :rules="rules"
-        ref="ruleForm"
+        ref="dateForm"
         label-width="100px"
-        class="demo-ruleForm"
+        class="demo-dateForm"
         size="mini"
         label-position="top"
       >
         <box title="required" class="required">
           <el-form-item label="label" prop="label">
-            <el-input v-model="ruleForm.label"></el-input>
+            <el-input v-model="dateForm.label"></el-input>
           </el-form-item>
 
           <el-form-item label="name" prop="model">
-            <el-input v-model="ruleForm.model"></el-input>
+            <el-input v-model="dateForm.model"></el-input>
           </el-form-item>
         </box>
 
         <box title="props" class="required">
-          <el-form-item label="type">
-            <el-select v-model="ruleForm.type" placeholder="请选择类型">
-              <el-option label="text" value="text"></el-option>
-              <el-option label="textarea" value="textarea"></el-option>
-            </el-select>
+          <el-form-item label="完全只读">
+            <el-switch v-model="dateForm.readonly"> </el-switch>
+          </el-form-item>
+
+          <el-form-item label="禁用">
+            <el-switch v-model="dateForm.disabled"> </el-switch>
+          </el-form-item>
+
+          <el-form-item label="文本框可输入">
+            <el-switch v-model="dateForm.editable"> </el-switch>
+          </el-form-item>
+
+          <el-form-item label="是否显示清除按钮">
+            <el-switch v-model="dateForm.clearable"> </el-switch>
           </el-form-item>
 
           <el-form-item label="输入框尺寸">
-            <el-select v-model="ruleForm.size" placeholder="请选择类型">
+            <el-select v-model="dateForm.size" placeholder="请选择类型">
               <el-option label="medium" value="medium"></el-option>
               <el-option label="small" value="small"></el-option>
               <el-option label="mini" value="mini"></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="maxlength">
-            <el-input-number v-model="ruleForm.maxlength"></el-input-number>
-          </el-form-item>
-
-          <el-form-item label="minlength">
-            <el-input-number v-model="ruleForm.minlength"></el-input-number>
-          </el-form-item>
-
-          <el-form-item label="show-word-limit">
-            <el-switch v-model="ruleForm.showWordLimit"> </el-switch>
-          </el-form-item>
-
           <el-form-item label="输入框占位文本">
-            <el-input v-model="ruleForm.placeholder"></el-input>
+            <el-input v-model="dateForm.placeholder"></el-input>
           </el-form-item>
 
-          <el-form-item label="是否显示切换密码图标">
-            <el-switch v-model="ruleForm.showPassword"> </el-switch>
+          <el-form-item label="type">
+            <el-select v-model="dateForm.type" placeholder="请选择类型">
+              <el-option label="year" value="year"></el-option>
+              <el-option label="month" value="month"></el-option>
+              <el-option label="date" value="date"></el-option>
+              <el-option label="dates" value="dates"></el-option>
+              <el-option label="week" value="week"></el-option>
+              <el-option label="datetime" value="datetime"></el-option>
+              <el-option
+                label="datetimerange"
+                value="datetimerange"
+              ></el-option>
+              <el-option label="daterange" value="daterange"></el-option>
+              <el-option label="monthrange" value="monthrange"></el-option>
+            </el-select>
           </el-form-item>
 
-          <el-form-item label="是否可清空">
-            <el-switch v-model="ruleForm.clearable"> </el-switch>
+          <el-form-item label="显示在输入框中的格式">
+            <el-input v-model="dateForm.format"></el-input>
           </el-form-item>
 
-          <el-form-item label="禁用">
-            <el-switch v-model="ruleForm.disabled"> </el-switch>
+          <el-form-item label="可选，绑定值的格式">
+            <el-input v-model="dateForm.valueFormat"></el-input>
+          </el-form-item>
+
+          <el-form-item label="对齐方式">
+            <el-select v-model="dateForm.align" placeholder="请选择类型">
+              <el-option label="left" value="left"></el-option>
+              <el-option label="center" value="center"></el-option>
+              <el-option label="right" value="right"></el-option>
+            </el-select>
           </el-form-item>
         </box>
 
         <el-form-item label="rules" prop="rules">
-          <el-input type="textarea" v-model="ruleForm.rules"></el-input>
+          <el-input type="textarea" v-model="dateForm.rules"></el-input>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">
+          <el-button type="primary" @click="submitForm('dateForm')">
             立即创建
           </el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button @click="resetForm('dateForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </box>
@@ -98,18 +116,20 @@ const checkRule = (rule, value, callback) => {
 export default {
   data() {
     return {
-      ruleForm: {
+      dateForm: {
         label: "",
         model: "",
-        type: "text",
-        showWordLimit: false,
+        rules: "",
+        readonly: false,
         disabled: false,
-        clearable: false,
-        showPassword: false,
-        minlength: "",
-        maxlength: "",
+        editable: true,
+        clearable: true,
         size: "",
-        rules: ""
+        placeholder: "",
+        type: "date",
+        format: "",
+        valueFormat: "",
+        align: ""
       },
       rules: {
         label: [{ required: true, message: "请输入label", trigger: "blur" }],
@@ -123,7 +143,7 @@ export default {
   },
   methods: {
     handleResult() {
-      const { rules, label, model, ...prop } = this.ruleForm;
+      const { rules, label, model, ...prop } = this.dateForm;
 
       for (let i in prop) {
         if (prop[i] === "") {
@@ -132,7 +152,7 @@ export default {
       }
 
       return {
-        tag: "el-input",
+        tag: "el-date-picker",
         props: prop,
         events: {},
         rule: rules,

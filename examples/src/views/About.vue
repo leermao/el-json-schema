@@ -123,7 +123,7 @@
     <el-drawer
       :visible.sync="drawer"
       :before-close="handleClose"
-      size="50%"
+      size="70%"
       custom-class="drawer-content"
     >
       <input-component

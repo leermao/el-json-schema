@@ -1,8 +1,26 @@
 {
-  "name": "root",
-  "private": true,
+  "name": "el-form-schema",
   "devDependencies": {
     "lerna": "^3.20.2"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "description": "## 背景",
+  "version": "1.0.0",
+  "main": "packages/formschema/index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LPmagic/el-json-schema.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LPmagic/el-json-schema/issues"
+  },
+  "homepage": "https://github.com/LPmagic/el-json-schema#readme"
 }

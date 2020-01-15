@@ -2,78 +2,61 @@
   <div class="switch">
     <box title="switch" type="danger">
       <el-form
-        :model="ruleForm"
+        :model="switchForm"
         :rules="rules"
-        ref="ruleForm"
+        ref="switchForm"
         label-width="100px"
-        class="demo-ruleForm"
+        class="demo-switchForm"
         size="mini"
         label-position="top"
       >
         <box title="required" class="required">
           <el-form-item label="label" prop="label">
-            <el-input v-model="ruleForm.label"></el-input>
+            <el-input v-model="switchForm.label"></el-input>
           </el-form-item>
 
           <el-form-item label="name" prop="model">
-            <el-input v-model="ruleForm.model"></el-input>
+            <el-input v-model="switchForm.model"></el-input>
           </el-form-item>
         </box>
 
         <box title="props" class="required">
-          <el-form-item label="type">
-            <el-select v-model="ruleForm.type" placeholder="请选择类型">
-              <el-option label="text" value="text"></el-option>
-              <el-option label="textarea" value="textarea"></el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="输入框尺寸">
-            <el-select v-model="ruleForm.size" placeholder="请选择类型">
-              <el-option label="medium" value="medium"></el-option>
-              <el-option label="small" value="small"></el-option>
-              <el-option label="mini" value="mini"></el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="maxlength">
-            <el-input-number v-model="ruleForm.maxlength"></el-input-number>
-          </el-form-item>
-
-          <el-form-item label="minlength">
-            <el-input-number v-model="ruleForm.minlength"></el-input-number>
-          </el-form-item>
-
-          <el-form-item label="show-word-limit">
-            <el-switch v-model="ruleForm.showWordLimit"> </el-switch>
-          </el-form-item>
-
-          <el-form-item label="输入框占位文本">
-            <el-input v-model="ruleForm.placeholder"></el-input>
-          </el-form-item>
-
-          <el-form-item label="是否显示切换密码图标">
-            <el-switch v-model="ruleForm.showPassword"> </el-switch>
-          </el-form-item>
-
-          <el-form-item label="是否可清空">
-            <el-switch v-model="ruleForm.clearable"> </el-switch>
-          </el-form-item>
-
           <el-form-item label="禁用">
-            <el-switch v-model="ruleForm.disabled"> </el-switch>
+            <el-switch v-model="switchForm.disabled"> </el-switch>
+          </el-form-item>
+
+          <el-form-item label="switch 的宽度（像素）">
+            <el-input-number v-model="switchForm.width"></el-input-number>
+          </el-form-item>
+
+          <el-form-item label="switch 打开时的文字描述">
+            <el-input v-model="switchForm.activeText"></el-input>
+          </el-form-item>
+
+          <el-form-item label="switch 关闭时的文字描述">
+            <el-input v-model="switchForm.inactiveText"></el-input>
+          </el-form-item>
+
+          <el-form-item label="switch 打开时的背景色">
+            <el-color-picker v-model="switchForm.activeColor"></el-color-picker>
+          </el-form-item>
+
+          <el-form-item label="switch 关闭时的背景色">
+            <el-color-picker
+              v-model="switchForm.inactiveColor"
+            ></el-color-picker>
           </el-form-item>
         </box>
 
         <el-form-item label="rules" prop="rules">
-          <el-input type="textarea" v-model="ruleForm.rules"></el-input>
+          <el-input type="textarea" v-model="switchForm.rules"></el-input>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">
+          <el-button type="primary" @click="submitForm('switchForm')">
             立即创建
           </el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button @click="resetForm('switchForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </box>
@@ -98,18 +81,16 @@ const checkRule = (rule, value, callback) => {
 export default {
   data() {
     return {
-      ruleForm: {
+      switchForm: {
         label: "",
         model: "",
-        type: "text",
-        showWordLimit: false,
+        rules: "",
         disabled: false,
-        clearable: false,
-        showPassword: false,
-        minlength: "",
-        maxlength: "",
-        size: "",
-        rules: ""
+        width: 40,
+        activeText: "",
+        inactiveText: "",
+        activeColor: "#409EFF",
+        inactiveColor: "#C0CCDA"
       },
       rules: {
         label: [{ required: true, message: "请输入label", trigger: "blur" }],
@@ -123,7 +104,7 @@ export default {
   },
   methods: {
     handleResult() {
-      const { rules, label, model, ...prop } = this.ruleForm;
+      const { rules, label, model, ...prop } = this.switchForm;
 
       for (let i in prop) {
         if (prop[i] === "") {
@@ -132,7 +113,7 @@ export default {
       }
 
       return {
-        tag: "el-input",
+        tag: "el-switch",
         props: prop,
         events: {},
         rule: rules,

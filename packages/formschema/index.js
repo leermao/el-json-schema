@@ -1,4 +1,4 @@
-import FormsShema from "./formschema.js";
+import FormsShema from "./src/formschema.js";
 
 export default {
   install: Vue => {

@@ -21,11 +21,12 @@
         </box>
 
         <box title="props" class="required">
-          <el-form-item label="type">
-            <el-select v-model="ruleForm.type" placeholder="请选择类型">
-              <el-option label="text" value="text"></el-option>
-              <el-option label="textarea" value="textarea"></el-option>
-            </el-select>
+          <el-form-item label="是否显示边框">
+            <el-switch v-model="ruleForm.border"> </el-switch>
+          </el-form-item>
+
+          <el-form-item label="禁用">
+            <el-switch v-model="ruleForm.disabled"> </el-switch>
           </el-form-item>
 
           <el-form-item label="输入框尺寸">
@@ -35,33 +36,54 @@
               <el-option label="mini" value="mini"></el-option>
             </el-select>
           </el-form-item>
+        </box>
 
-          <el-form-item label="maxlength">
-            <el-input-number v-model="ruleForm.maxlength"></el-input-number>
+        <box title="options" class="required">
+          <el-select
+            v-model="selectForm.optionType"
+            placeholder="请选择类型"
+            size="small"
+            style="margin-bottom: 10px"
+          >
+            <el-option label="array" value="array"></el-option>
+            <el-option label="object" value="object"></el-option>
+          </el-select>
+
+          <el-form-item v-for="(item, index) in options" :key="index">
+            <el-col :span="2">
+              Key:
+            </el-col>
+            <el-col :span="8">
+              <el-input v-model="options[index].value"></el-input>
+            </el-col>
+            <el-col :span="2">
+              Value:
+            </el-col>
+            <el-col :span="8">
+              <el-input v-model="options[index].label"></el-input>
+            </el-col>
+            <el-col :span="3" :offset="1">
+              <el-button
+                @click="handleAddOption(options[index])"
+                icon="el-icon-plus"
+                circle
+              ></el-button>
+              <el-button
+                @click="handleMvOption(index)"
+                icon="el-icon-minus"
+                circle
+              ></el-button>
+            </el-col>
+          </el-form-item>
+        </box>
+
+        <box title="required" class="required">
+          <el-form-item label="label" prop="label">
+            <el-input v-model="ruleForm.label"></el-input>
           </el-form-item>
 
-          <el-form-item label="minlength">
-            <el-input-number v-model="ruleForm.minlength"></el-input-number>
-          </el-form-item>
-
-          <el-form-item label="show-word-limit">
-            <el-switch v-model="ruleForm.showWordLimit"> </el-switch>
-          </el-form-item>
-
-          <el-form-item label="输入框占位文本">
-            <el-input v-model="ruleForm.placeholder"></el-input>
-          </el-form-item>
-
-          <el-form-item label="是否显示切换密码图标">
-            <el-switch v-model="ruleForm.showPassword"> </el-switch>
-          </el-form-item>
-
-          <el-form-item label="是否可清空">
-            <el-switch v-model="ruleForm.clearable"> </el-switch>
-          </el-form-item>
-
-          <el-form-item label="禁用">
-            <el-switch v-model="ruleForm.disabled"> </el-switch>
+          <el-form-item label="name" prop="model">
+            <el-input v-model="ruleForm.model"></el-input>
           </el-form-item>
         </box>
 
@@ -99,23 +121,26 @@ export default {
   data() {
     return {
       ruleForm: {
+        options: [],
+        optionType: "array",
         label: "",
         model: "",
-        type: "text",
-        showWordLimit: false,
-        disabled: false,
-        clearable: false,
-        showPassword: false,
-        minlength: "",
-        maxlength: "",
         size: "",
-        rules: ""
+        rules: "",
+        border: false,
+        disabled: false
       },
       rules: {
         label: [{ required: true, message: "请输入label", trigger: "blur" }],
         model: [{ required: true, message: "请输入model", trigger: "blur" }],
         rules: [{ validator: checkRule, trigger: "blur" }]
-      }
+      },
+      options: [
+        {
+          label: "",
+          value: ""
+        }
+      ]
     };
   },
   components: {
@@ -123,7 +148,15 @@ export default {
   },
   methods: {
     handleResult() {
-      const { rules, label, model, ...prop } = this.ruleForm;
+      if (this.selectForm.optionType === "array") {
+        this.selectForm.options = [...this.options];
+      } else {
+        this.selectForm.options = {};
+        this.options.map(item => {
+          this.selectForm.options[item.value] = item.label;
+        });
+      }
+      const { rules, label, model, options, ...prop } = this.ruleForm;
 
       for (let i in prop) {
         if (prop[i] === "") {
@@ -132,12 +165,13 @@ export default {
       }
 
       return {
-        tag: "el-input",
+        tag: "el-radio",
         props: prop,
         events: {},
         rule: rules,
-        model: model,
-        label: label
+        model,
+        label,
+        options
       };
     },
     submitForm(formName) {
@@ -149,6 +183,20 @@ export default {
         }
       });
     },
+
+    handleAddOption({ label, value }) {
+      if (label && value) {
+        this.options.push({
+          label: "",
+          value: ""
+        });
+      }
+    },
+
+    handleMvOption(index) {
+      this.options.splice(index, 1);
+    },
+
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
