@@ -183,22 +183,24 @@ Vue.use(FormsShema);
 ```
 
 参数：
-| First Header | Second Header |
-| ------------- | ------------- |
-| schemas | 渲染的组件对象 |
-| formValues | 渲染组件对象的 v-model(需要和选择对象的 model 重名) |
-| config | 对象整理布局 参数为 el-form 中的 props |
+
+| First Header |                    Second Header                    |
+| :----------: | :-------------------------------------------------: |
+|   schemas    |                   渲染的组件对象                    |
+|  formValues  | 渲染组件对象的 v-model(需要和选择对象的 model 重名) |
+|    config    |       对象整理布局 参数为 el-form 中的 props        |
 
 schemas 参数：
-| First Header | Second Header | Eg |
-| ------------- | ------------- |-------------|
-| tag | 渲染组件的名字 | 'el-input' |
-| props | 对应组件的 props | {size: "small",placeholder: "测试输入框"} |
-| events | 当前组件的事件 | {click(){}} |
-| rule | 当前组件的校验规则 | [{required: true}] |
-| model | 当前组件的 v-model | |
-| label | 当前组件的 label 名称 | '测试' |
-| render | 当前组件的自定义渲染 | Function |
+
+| First Header |         Second Header |                    Eg                     |
+| ------------ | --------------------: | :---------------------------------------: |
+| tag          |        渲染组件的名字 |                'el-input'                 |
+| props        |      对应组件的 props | {size: "small",placeholder: "测试输入框"} |
+| events       |        当前组件的事件 |                {click(){}}                |
+| rule         |    当前组件的校验规则 |            [{required: true}]             |
+| model        |    当前组件的 v-model |                                           |
+| label        | 当前组件的 label 名称 |                  '测试'                   |
+| render       |  当前组件的自定义渲染 |                 Function                  |
 
 ## 效果
 
