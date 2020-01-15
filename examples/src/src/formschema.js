@@ -49,10 +49,12 @@ export default {
         ref: "formData"
       },
       [
-        ...(this.$slots.prepend || []),
-        ...this.renderFormItems(h),
-        ...this.renderButtomItems(h),
-        ...(this.$slots.append || [])
+        h("el-row", {}, [
+          ...(this.$slots.prepend || []),
+          ...this.renderFormItems(h),
+          ...this.renderButtomItems(h),
+          ...(this.$slots.append || [])
+        ])
       ]
     );
   },
@@ -85,54 +87,64 @@ export default {
     renderButtomItems(h) {
       const vm = this;
       const {
-        formConfig: { size, labelWidth }
+        formConfig: { size, labelWidth, componentWidth, inline }
       } = vm;
 
       return [
         h(
-          "el-form-item",
+          inline ? "el-col" : "div",
           {
             props: {
-              size,
-              labelWidth
+              span: componentWidth
             }
           },
           [
             h(
-              "el-button",
-              {
-                props: {
-                  size
-                },
-                on: {
-                  click() {
-                    vm.$refs.formData.resetFields();
-                    vm.$emit("cancel", { ...vm.formData });
-                  }
-                }
-              },
-              "取消"
-            ),
-            h(
-              "el-button",
+              "el-form-item",
               {
                 props: {
                   size,
-                  type: "primary"
-                },
-                on: {
-                  click() {
-                    vm.$refs.formData.validate(valid => {
-                      if (valid) {
-                        vm.$emit("submit", { ...vm.formData });
-                      } else {
-                        return false;
-                      }
-                    });
-                  }
+                  labelWidth
                 }
               },
-              "确定"
+              [
+                h(
+                  "el-button",
+                  {
+                    props: {
+                      size
+                    },
+                    on: {
+                      click() {
+                        vm.$refs.formData.resetFields();
+                        vm.$emit("cancel", { ...vm.formData });
+                      }
+                    }
+                  },
+                  "取消"
+                ),
+                h(
+                  "el-button",
+                  {
+                    props: {
+                      size,
+                      type: "primary"
+                    },
+                    on: {
+                      click() {
+                        vm.$refs.formData.validate(valid => {
+                          if (valid) {
+                            vm.$emit("submit", { ...vm.formData });
+                          } else {
+                            return false;
+                          }
+                        });
+                      }
+                    }
+                  },
+                  "确定"
+                )
+              ]
             )
           ]
         )

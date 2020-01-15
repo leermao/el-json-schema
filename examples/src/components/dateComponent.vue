@@ -124,7 +124,7 @@ export default {
         disabled: false,
         editable: true,
         clearable: true,
-        size: "",
+        size: "small",
         placeholder: "",
         type: "date",
         format: "",

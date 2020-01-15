@@ -108,7 +108,7 @@ export default {
         showPassword: false,
         minlength: "",
         maxlength: "",
-        size: "",
+        size: "small",
         rules: ""
       },
       rules: {

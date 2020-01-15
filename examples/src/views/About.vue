@@ -86,19 +86,24 @@
       <el-row :gutter="30" v-if="schemas.length">
         <el-col :span="6">
           <div class="current-components">
-            <div
-              class="component"
-              v-for="(item, index) in schemas"
-              :key="index"
-            >
-              <div>
-                <div>标签: {{ item.tag }}</div>
-                <div>名称: {{ item.label }}</div>
-                <div>v-model: {{ item.model }}</div>
-              </div>
+            <draggable v-model="schemas">
+              <div
+                class="component"
+                v-for="(item, index) in schemas"
+                :key="index"
+              >
+                <div>
+                  <div>标签: {{ item.tag }}</div>
+                  <div>名称: {{ item.label }}</div>
+                  <div>v-model: {{ item.model }}</div>
+                </div>
 
-              <i class="el-icon-delete-solid" @click="handleRemove(index)"></i>
-            </div>
+                <i
+                  class="el-icon-delete-solid"
+                  @click="handleRemove(index)"
+                ></i>
+              </div>
+            </draggable>
           </div>
         </el-col>
 
@@ -161,6 +166,7 @@ import dateComponent from "../components/dateComponent.vue";
 import switchComponent from "../components/switchComponent.vue";
 
 import markdown from "../components/markdown.vue";
+import draggable from "vuedraggable";
 export default {
   data() {
     return {
@@ -171,7 +177,7 @@ export default {
         inline: true,
         labelWidth: 80,
         componentWidth: 24,
-        size: "",
+        size: "mini",
         labelPosition: ""
       },
       schemas: [],
@@ -185,7 +191,8 @@ export default {
     selectComponent,
     radioComponent,
     dateComponent,
-    switchComponent
+    switchComponent,
+    draggable
   },
   computed: {
     config() {

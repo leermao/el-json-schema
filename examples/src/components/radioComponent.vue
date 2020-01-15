@@ -125,7 +125,7 @@ export default {
         optionType: "array",
         label: "",
         model: "",
-        size: "",
+        size: "small",
         rules: "",
         border: false,
         disabled: false
