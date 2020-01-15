@@ -136,6 +136,18 @@
         v-if="tag === 'input'"
         @submit="handleSubmit"
       ></input-component>
+
+      <select-component v-if="tag === 'select'" @submit="handleSubmit">
+      </select-component>
+
+      <radio-component v-if="tag === 'radio'" @submit="handleSubmit">
+      </radio-component>
+
+      <switch-component v-if="tag === 'switch'" @submit="handleSubmit">
+      </switch-component>
+
+      <date-component v-if="tag === 'date-picker'" @submit="handleSubmit">
+      </date-component>
     </el-drawer>
 
     <el-dialog :visible.sync="dialogVisible" width="50%" v-if="dialogVisible">
@@ -149,6 +161,11 @@
 </template>
 <script>
 import inputComponent from "../components/inputComponent.vue";
+import selectComponent from "../components/selectComponent.vue";
+import radioComponent from "../components/inputComponent.vue";
+import dateComponent from "../components/dateComponent.vue";
+import switchComponent from "../components/switchComponent.vue";
+
 import markdown from "../components/markdown.vue";
 export default {
   data() {
@@ -168,6 +185,14 @@ export default {
       formValues: {},
       dialogVisible: false
     };
+  },
+  components: {
+    inputComponent,
+    markdown,
+    selectComponent,
+    radioComponent,
+    dateComponent,
+    switchComponent
   },
   computed: {
     config() {
@@ -195,10 +220,6 @@ export default {
     handleRemove(index) {
       this.schemas.splice(index, 1);
     }
-  },
-  components: {
-    inputComponent,
-    markdown
   }
 };
 </script>

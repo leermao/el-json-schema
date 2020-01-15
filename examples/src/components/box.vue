@@ -1,6 +1,8 @@
 <template>
   <div class="content">
-    <el-button round class="title" size="mini">{{ title }}</el-button>
+    <el-button round class="title" size="mini" :type="type">{{
+      title
+    }}</el-button>
     <slot></slot>
   </div>
 </template>
@@ -10,6 +12,10 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    type: {
+      type: String,
+      default: ""
     }
   }
 };
