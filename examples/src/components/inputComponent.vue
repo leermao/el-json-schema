@@ -74,7 +74,10 @@
         </box>
 
         <box title="校验规则" class="required">
-          <el-form-item label="校验规则需要为JSON格式：" prop="rules">
+          <el-form-item
+            label="校验规则需要为JSON格式： （key值需要加双引号）"
+            prop="rules"
+          >
             <el-input
               type="textarea"
               v-model="inputForm.rules"
@@ -82,7 +85,7 @@
             ></el-input>
           </el-form-item>
 
-          <el-form-item label="JSON格式：" prop="rules">
+          <el-form-item label="转为JSON格式为：" prop="rules">
             <json-viewer :value="JsonView"></json-viewer>
           </el-form-item>
 
@@ -197,8 +200,8 @@ export default {
         props: prop,
         events: {},
         rule: this.JsonView,
-        model: model,
-        label: label
+        model,
+        label
       };
     },
     submitForm(formName) {

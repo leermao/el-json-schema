@@ -43,15 +43,31 @@
         </box>
 
         <box title="子节点Options" class="required">
-          <el-select
-            v-model="radioForm.optionType"
-            placeholder="请选择类型"
-            size="small"
-            style="margin-bottom: 10px"
-          >
-            <el-option label="array" value="array"></el-option>
-            <el-option label="object" value="object"></el-option>
-          </el-select>
+          <el-form-item>
+            <el-col :span="6">
+              <el-select
+                v-model="radioForm.optionType"
+                placeholder="请选择类型"
+                size="small"
+                style="margin-bottom: 10px"
+              >
+                <el-option label="array" value="array"></el-option>
+                <el-option label="object" value="object"></el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="4" style="text-align: center">
+              label字段
+            </el-col>
+            <el-col :span="5">
+              <el-input v-model="radioForm.keyVal"></el-input>
+            </el-col>
+            <el-col :span="4" style="text-align: center">
+              value字段:
+            </el-col>
+            <el-col :span="5">
+              <el-input v-model="radioForm.labelVal"></el-input>
+            </el-col>
+          </el-form-item>
 
           <el-form-item v-for="(item, index) in options" :key="index">
             <el-col :span="2" style="text-align: center">
@@ -83,7 +99,10 @@
         </box>
 
         <box title="校验规则" class="required">
-          <el-form-item label="校验规则需要为JSON格式：" prop="rules">
+          <el-form-item
+            label="校验规则需要为JSON格式： （key值需要加双引号）"
+            prop="rules"
+          >
             <el-input
               type="textarea"
               v-model="radioForm.rules"
@@ -91,7 +110,7 @@
             ></el-input>
           </el-form-item>
 
-          <el-form-item label="JSON格式：" prop="rules">
+          <el-form-item label="转为JSON格式为：" prop="rules">
             <json-viewer :value="JsonView"></json-viewer>
           </el-form-item>
 
@@ -159,7 +178,9 @@ export default {
         rules: "",
         border: false,
         disabled: false,
-        componentWidth: 24
+        componentWidth: 24,
+        keyVal: "",
+        labelVal: ""
       },
       rules: {
         label: [{ required: true, message: "请输入label", trigger: "blur" }],
@@ -204,7 +225,14 @@ export default {
           this.radioForm.options[item.value] = item.label;
         });
       }
-      const { rules, label, model, options, ...prop } = this.radioForm;
+      const {
+        label,
+        model,
+        options,
+        keyVal,
+        labelVal,
+        ...prop
+      } = this.radioForm;
 
       for (let i in prop) {
         if (prop[i] === "") {
@@ -216,10 +244,12 @@ export default {
         component: "el-radio",
         props: prop,
         events: {},
-        rule: rules,
+        rule: this.JsonView,
         model,
         label,
-        options
+        options,
+        keyVal,
+        labelVal
       };
     },
     submitForm(formName) {

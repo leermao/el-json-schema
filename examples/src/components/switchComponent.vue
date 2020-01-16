@@ -56,15 +56,42 @@
         </box>
 
         <box title="校验规则" class="required">
-          <el-form-item label="校验规则需要为JSON格式" prop="rules">
+          <el-form-item
+            label="校验规则需要为JSON格式： （key值需要加双引号）"
+            prop="rules"
+          >
             <el-input
               type="textarea"
-              v-model="selectForm.rules"
+              v-model="switchForm.rules"
               :rows="10"
             ></el-input>
           </el-form-item>
 
-          <json-viewer :value="JsonView"></json-viewer>
+          <el-form-item label="转为JSON格式为：" prop="rules">
+            <json-viewer :value="JsonView"></json-viewer>
+          </el-form-item>
+
+          <el-form-item label="例子：" prop="rules">
+            <pre>{{
+              JSON.stringify(
+                [
+                  {
+                    required: true,
+                    message: "请输入活动名称",
+                    trigger: "blur"
+                  },
+                  {
+                    min: 3,
+                    max: 5,
+                    message: "长度在 3 到 5 个字符",
+                    trigger: "blur"
+                  }
+                ],
+                null,
+                4
+              )
+            }}</pre>
+          </el-form-item>
         </box>
 
         <el-form-item>
@@ -123,13 +150,13 @@ export default {
   },
   computed: {
     JsonView() {
-      return checkJson(this.selectForm.rules, ({ empty, success, fail }) => {
+      return checkJson(this.switchForm.rules, ({ empty, success, fail }) => {
         if (empty) {
           return [];
         }
 
         if (success) {
-          return JSON.parse(this.selectForm.rules);
+          return JSON.parse(this.switchForm.rules);
         }
 
         if (fail) {
@@ -153,8 +180,8 @@ export default {
         props: prop,
         events: {},
         rule: this.JsonView,
-        model: model,
-        label: label
+        model,
+        label
       };
     },
     submitForm(formName) {
