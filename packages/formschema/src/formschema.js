@@ -166,34 +166,42 @@ export default {
         "el-custom": vm.handleRenderCustom
       };
 
-      vm.uiSchemas.map(item => {
-        if (componentMap[item.component]) {
-          const formItem = h(
-            formConfig.inline ? "el-col" : "div",
-            {
-              props: {
-                span: item.componentWidth || formConfig.componentWidth
-              }
-            },
-            [
-              h(
-                "el-form-item",
-                {
-                  props: {
-                    rules: [...(item.rule || [])],
-                    label: item.label,
-                    prop: item.model
-                  }
-                },
-                item.render
-                  ? [item.render(h, item)]
-                  : [...componentMap[item.component](h, item)]
-              )
-            ]
-          );
+      const renderFormItem = (h, item) => {
+        return h(
+          "el-form-item",
+          {
+            props: {
+              rules: [...(item.rule || [])],
+              label: item.label,
+              prop: item.model
+            }
+          },
+          renderCustom(h, item)
+        );
+      };
 
-          children.push(formItem);
-        }
+      const renderCustom = (h, item) => {
+        return item.render ? [item.render(h, item)] : renderItem(h, item);
+      };
+
+      const renderItem = (h, item) => {
+        return componentMap[item.component]
+          ? [...componentMap[item.component](h, item)]
+          : [...vm.handleRenderCommonItems(h, item)];
+      };
+
+      vm.uiSchemas.map(item => {
+        const formItem = h(
+          formConfig.inline ? "el-col" : "div",
+          {
+            props: {
+              span: item.componentWidth || formConfig.componentWidth
+            }
+          },
+          [renderFormItem(h, item)]
+        );
+
+        children.push(formItem);
       });
 
       return children;

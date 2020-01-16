@@ -143,6 +143,11 @@ export default {
           },
           model: "custom",
           label: "自定义"
+        },
+        {
+          component: "el-rate",
+          model: "rate",
+          label: "Rate 评分"
         }
       ],
       formValues: {
