@@ -23,7 +23,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tag": "git tag v`node -p 'require(\"./package\").version'`"
+    "tag": "git tag v`node -p 'require(\"./package\").version'`",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
