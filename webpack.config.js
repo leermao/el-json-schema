@@ -1,11 +1,12 @@
 const path = require("path");
-const webpack = require("webpack");
+const TerserPlugin = require("terser-webpack-plugin");
 
 function resolve(file) {
   return path.join(__dirname, file);
 }
 
 module.exports = {
+  mode: "production",
   entry: resolve("packages/formschema/index.js"),
   output: {
     path: resolve("dist"),
@@ -28,9 +29,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: "babel-loader",
-        include: __dirname,
-        exclude: /node_modules/,
-        query: { compact: false }
+        exclude: /node_modules/
       },
       {
         test: /\.vue$/,
@@ -38,16 +37,8 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      sourceMap: false,
-      mangle: true,
-      parallel: true,
-      compress: {
-        warnings: false
-      }
-    })
-  ],
-  externals: {}
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({ parallel: true })]
+  }
 };

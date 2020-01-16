@@ -1,6 +1,6 @@
 <template>
   <div class="date">
-    <box title="date" type="danger">
+    <box title="date-picker" type="danger">
       <el-form
         :model="dateForm"
         :rules="rules"
