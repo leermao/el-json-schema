@@ -17,6 +17,7 @@
     "marked": "^0.8.0",
     "mavon-editor": "^2.7.7",
     "vue": "^2.6.10",
+    "vue-json-viewer": "^2.2.8",
     "vue-markdown": "^2.2.4",
     "vue-meditor": "^2.1.1",
     "vue-router": "^3.1.3",

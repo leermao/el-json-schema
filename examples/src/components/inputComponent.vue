@@ -74,8 +74,38 @@
         </box>
 
         <box title="校验规则" class="required">
-          <el-form-item label="校验规则" prop="rules">
-            <el-input type="textarea" v-model="inputForm.rules"></el-input>
+          <el-form-item label="校验规则需要为JSON格式：" prop="rules">
+            <el-input
+              type="textarea"
+              v-model="inputForm.rules"
+              :rows="10"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item label="JSON格式：" prop="rules">
+            <json-viewer :value="JsonView"></json-viewer>
+          </el-form-item>
+
+          <el-form-item label="例子：" prop="rules">
+            <pre>{{
+              JSON.stringify(
+                [
+                  {
+                    required: true,
+                    message: "请输入活动名称",
+                    trigger: "blur"
+                  },
+                  {
+                    min: 3,
+                    max: 5,
+                    message: "长度在 3 到 5 个字符",
+                    trigger: "blur"
+                  }
+                ],
+                null,
+                4
+              )
+            }}</pre>
           </el-form-item>
         </box>
 
@@ -91,21 +121,21 @@
 </template>
 <script>
 import box from "./box";
+import { checkJson } from "../utils/index";
 const checkRule = (rule, value, callback) => {
-  if (!value) {
-    return callback();
-  }
-
-  try {
-    const val = JSON.parse(value);
-    if (Array.isArray(val) && typeof val == "object") {
+  return checkJson(value, ({ empty, success, fail }) => {
+    if (empty) {
       return callback();
-    } else {
+    }
+
+    if (success) {
+      return callback();
+    }
+
+    if (fail) {
       return callback("输入内容必须为JSON内容");
     }
-  } catch (e) {
-    return callback("输入内容必须为JSON内容");
-  }
+  });
 };
 
 export default {
@@ -135,9 +165,26 @@ export default {
   components: {
     box
   },
+  computed: {
+    JsonView() {
+      return checkJson(this.inputForm.rules, ({ empty, success, fail }) => {
+        if (empty) {
+          return [];
+        }
+
+        if (success) {
+          return JSON.parse(this.inputForm.rules);
+        }
+
+        if (fail) {
+          return [];
+        }
+      });
+    }
+  },
   methods: {
     handleResult() {
-      const { rules, label, model, ...prop } = this.inputForm;
+      const { label, model, ...prop } = this.inputForm;
 
       for (let i in prop) {
         if (prop[i] === "") {
@@ -149,7 +196,7 @@ export default {
         component: "el-input",
         props: prop,
         events: {},
-        rule: rules,
+        rule: this.JsonView,
         model: model,
         label: label
       };

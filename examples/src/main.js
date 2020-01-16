@@ -5,7 +5,9 @@ import App from "./App.vue";
 import FormsShema from "../../packages/formschema/index.js";
 import marked from "./marked";
 import "./index.less";
+import JsonViewer from "vue-json-viewer";
 
+Vue.use(JsonViewer);
 Vue.use(FormsShema);
 Vue.use(ElementUI);
 Vue.use(marked);
