@@ -2,35 +2,35 @@
   <div class="radio">
     <box title="radio" type="danger">
       <el-form
-        :model="ruleForm"
+        :model="radioForm"
         :rules="rules"
-        ref="ruleForm"
+        ref="radioForm"
         label-width="100px"
-        class="demo-ruleForm"
+        class="demo-radioForm"
         size="mini"
         label-position="top"
       >
         <box title="required" class="required">
           <el-form-item label="label" prop="label">
-            <el-input v-model="ruleForm.label"></el-input>
+            <el-input v-model="radioForm.label"></el-input>
           </el-form-item>
 
           <el-form-item label="name" prop="model">
-            <el-input v-model="ruleForm.model"></el-input>
+            <el-input v-model="radioForm.model"></el-input>
           </el-form-item>
         </box>
 
         <box title="props" class="required">
           <el-form-item label="是否显示边框">
-            <el-switch v-model="ruleForm.border"> </el-switch>
+            <el-switch v-model="radioForm.border"> </el-switch>
           </el-form-item>
 
           <el-form-item label="禁用">
-            <el-switch v-model="ruleForm.disabled"> </el-switch>
+            <el-switch v-model="radioForm.disabled"> </el-switch>
           </el-form-item>
 
           <el-form-item label="输入框尺寸">
-            <el-select v-model="ruleForm.size" placeholder="请选择类型">
+            <el-select v-model="radioForm.size" placeholder="请选择类型">
               <el-option label="medium" value="medium"></el-option>
               <el-option label="small" value="small"></el-option>
               <el-option label="mini" value="mini"></el-option>
@@ -40,7 +40,7 @@
 
         <box title="options" class="required">
           <el-select
-            v-model="selectForm.optionType"
+            v-model="radioForm.optionType"
             placeholder="请选择类型"
             size="small"
             style="margin-bottom: 10px"
@@ -50,13 +50,13 @@
           </el-select>
 
           <el-form-item v-for="(item, index) in options" :key="index">
-            <el-col :span="2">
+            <el-col :span="2" style="text-align: center">
               Key:
             </el-col>
             <el-col :span="8">
               <el-input v-model="options[index].value"></el-input>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="2" style="text-align: center">
               Value:
             </el-col>
             <el-col :span="8">
@@ -77,25 +77,15 @@
           </el-form-item>
         </box>
 
-        <box title="required" class="required">
-          <el-form-item label="label" prop="label">
-            <el-input v-model="ruleForm.label"></el-input>
-          </el-form-item>
-
-          <el-form-item label="name" prop="model">
-            <el-input v-model="ruleForm.model"></el-input>
-          </el-form-item>
-        </box>
-
         <el-form-item label="rules" prop="rules">
-          <el-input type="textarea" v-model="ruleForm.rules"></el-input>
+          <el-input type="textarea" v-model="radioForm.rules"></el-input>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">
+          <el-button type="primary" @click="submitForm('radioForm')">
             立即创建
           </el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button @click="resetForm('radioForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </box>
@@ -120,7 +110,7 @@ const checkRule = (rule, value, callback) => {
 export default {
   data() {
     return {
-      ruleForm: {
+      radioForm: {
         options: [],
         optionType: "array",
         label: "",
@@ -148,15 +138,15 @@ export default {
   },
   methods: {
     handleResult() {
-      if (this.selectForm.optionType === "array") {
-        this.selectForm.options = [...this.options];
+      if (this.radioForm.optionType === "array") {
+        this.radioForm.options = [...this.options];
       } else {
-        this.selectForm.options = {};
+        this.radioForm.options = {};
         this.options.map(item => {
-          this.selectForm.options[item.value] = item.label;
+          this.radioForm.options[item.value] = item.label;
         });
       }
-      const { rules, label, model, options, ...prop } = this.ruleForm;
+      const { rules, label, model, options, ...prop } = this.radioForm;
 
       for (let i in prop) {
         if (prop[i] === "") {

@@ -161,7 +161,7 @@
 <script>
 import inputComponent from "../components/inputComponent.vue";
 import selectComponent from "../components/selectComponent.vue";
-import radioComponent from "../components/inputComponent.vue";
+import radioComponent from "../components/radioComponent.vue";
 import dateComponent from "../components/dateComponent.vue";
 import switchComponent from "../components/switchComponent.vue";
 

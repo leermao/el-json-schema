@@ -78,13 +78,13 @@
           </el-select>
 
           <el-form-item v-for="(item, index) in options" :key="index">
-            <el-col :span="2">
+            <el-col :span="2" style="text-align: center">
               Key:
             </el-col>
             <el-col :span="8">
               <el-input v-model="options[index].value"></el-input>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="2" style="text-align: center">
               Value:
             </el-col>
             <el-col :span="8">
