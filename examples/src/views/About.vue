@@ -93,9 +93,22 @@
                 :key="index"
               >
                 <div>
-                  <div>标签: {{ item.tag }}</div>
-                  <div>名称: {{ item.label }}</div>
-                  <div>v-model: {{ item.model }}</div>
+                  <div class="row">
+                    <h5 class="red">标签:</h5>
+                    {{ item.component }}
+                  </div>
+                  <div class="row">
+                    <h5 class="red">名称:</h5>
+                    {{ item.label }}
+                  </div>
+                  <div class="row">
+                    <h5 class="red">v-model key:</h5>
+                    {{ item.model }}
+                  </div>
+                  <div class="row">
+                    <h5 class="red">v-model value:</h5>
+                    {{ formValues[item.model] }}
+                  </div>
                 </div>
 
                 <i
@@ -260,6 +273,16 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+
+    .row {
+      display: flex;
+      align-items: center;
+
+      .red {
+        color: red;
+        margin: 2px 10px 2px 0;
+      }
+    }
   }
 }
 
@@ -267,5 +290,9 @@ export default {
   background: #ddd;
   margin-bottom: 5px;
   padding: 20px;
+
+  .el-form-item__label {
+    background: rgb(24, 142, 28);
+  }
 }
 </style>
