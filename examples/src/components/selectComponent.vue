@@ -79,16 +79,16 @@
 
           <el-form-item v-for="(item, index) in options" :key="index">
             <el-col :span="2" style="text-align: center">
-              Key:
-            </el-col>
-            <el-col :span="8">
-              <el-input v-model="options[index].value"></el-input>
-            </el-col>
-            <el-col :span="2" style="text-align: center">
-              Value:
+              label:
             </el-col>
             <el-col :span="8">
               <el-input v-model="options[index].label"></el-input>
+            </el-col>
+            <el-col :span="2" style="text-align: center">
+              value:
+            </el-col>
+            <el-col :span="8">
+              <el-input v-model="options[index].value"></el-input>
             </el-col>
             <el-col :span="3" :offset="1">
               <el-button
@@ -100,6 +100,7 @@
                 @click="handleMvOption(index)"
                 icon="el-icon-minus"
                 circle
+                v-if="index > 0"
               ></el-button>
             </el-col>
           </el-form-item>
@@ -141,8 +142,8 @@ export default {
       selectForm: {
         options: [],
         optionType: "array",
-        label: "",
-        model: "",
+        label: "select",
+        model: "select",
         rules: "",
         multiple: false,
         disabled: false,
@@ -175,7 +176,7 @@ export default {
       if (this.selectForm.optionType === "array") {
         this.selectForm.options = [...this.options];
       } else {
-        this.selectForm.options = {};
+        this.selectForm.options = Object.create(null);
         this.options.map(item => {
           this.selectForm.options[item.value] = item.label;
         });

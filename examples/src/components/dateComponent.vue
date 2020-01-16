@@ -117,8 +117,8 @@ export default {
   data() {
     return {
       dateForm: {
-        label: "",
-        model: "",
+        label: "date",
+        model: "date",
         rules: "",
         readonly: false,
         disabled: false,

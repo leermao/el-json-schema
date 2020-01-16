@@ -99,8 +99,8 @@ export default {
   data() {
     return {
       ruleForm: {
-        label: "",
-        model: "",
+        label: "input",
+        model: "input",
         type: "text",
         showWordLimit: false,
         disabled: false,

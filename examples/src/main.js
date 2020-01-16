@@ -2,8 +2,9 @@ import Vue from "vue";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import App from "./App.vue";
-import FormsShema from "el-form-schema";
+import FormsShema from "../../packages/formschema/index.js";
 import marked from "./marked";
+import "./index.less";
 
 Vue.use(FormsShema);
 Vue.use(ElementUI);

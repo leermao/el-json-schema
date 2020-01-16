@@ -72,6 +72,7 @@
                 @click="handleMvOption(index)"
                 icon="el-icon-minus"
                 circle
+                v-if="index > 0"
               ></el-button>
             </el-col>
           </el-form-item>
@@ -111,10 +112,10 @@ export default {
   data() {
     return {
       radioForm: {
+        label: "radio",
+        model: "radio",
         options: [],
         optionType: "array",
-        label: "",
-        model: "",
         size: "small",
         rules: "",
         border: false,

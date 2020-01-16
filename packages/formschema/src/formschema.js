@@ -204,7 +204,7 @@ export default {
       const value = vm.formData[item.model] || null;
       const modelEvents = {
         input: function(value) {
-          vm.formData[item.model] = value;
+          vm.formData = { ...vm.formData, [item.model]: value };
         }
       };
       return {

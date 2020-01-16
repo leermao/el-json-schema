@@ -85,7 +85,8 @@
       <div class="setting">当前组件UI</div>
       <el-row :gutter="30" v-if="schemas.length">
         <el-col :span="6">
-          <div class="current-components">
+          <fieldset class="current-components">
+            <legend>Restore:</legend>
             <draggable v-model="schemas">
               <div
                 class="component"
@@ -117,7 +118,7 @@
                 ></i>
               </div>
             </draggable>
-          </div>
+          </fieldset>
         </el-col>
 
         <el-col :span="12">
@@ -288,7 +289,7 @@ export default {
 
 .current-ui {
   background: #ddd;
-  margin-bottom: 5px;
+  margin: 10px;
   padding: 20px;
 
   .el-form-item__label {

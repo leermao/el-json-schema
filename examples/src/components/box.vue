@@ -1,10 +1,8 @@
 <template>
-  <div class="content">
-    <el-button round class="title" size="mini" :type="type">{{
-      title
-    }}</el-button>
+  <fieldset class="content">
+    <legend>{{ title }}:</legend>
     <slot></slot>
-  </div>
+  </fieldset>
 </template>
 <script>
 export default {

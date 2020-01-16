@@ -4,7 +4,7 @@
 
     <div id="nav">
       <router-link to="/">基础用法</router-link> |
-      <router-link to="/about">UI界面快速生成</router-link>
+      <router-link to="/ui">UI界面快速生成</router-link>
     </div>
     <router-view />
   </div>

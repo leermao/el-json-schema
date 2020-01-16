@@ -82,8 +82,8 @@ export default {
   data() {
     return {
       switchForm: {
-        label: "",
-        model: "",
+        label: "switch",
+        model: "switch",
         rules: "",
         disabled: false,
         width: 40,
