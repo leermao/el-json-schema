@@ -113,7 +113,7 @@ export default {
       }
 
       return {
-        tag: "el-switch",
+        component: "el-switch",
         props: prop,
         events: {},
         rule: rules,

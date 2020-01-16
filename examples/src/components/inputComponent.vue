@@ -132,7 +132,7 @@ export default {
       }
 
       return {
-        tag: "el-input",
+        component: "el-input",
         props: prop,
         events: {},
         rule: rules,

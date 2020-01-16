@@ -1,6 +1,6 @@
 <template>
   <el-form-shema
-    :schemas="schemas"
+    :ui-schemas="schemas"
     v-model="formValues"
     :config="config"
     @submit="handleSubmit"
@@ -16,7 +16,7 @@ export default {
       },
       schemas: [
         {
-          tag: "el-input",
+          component: "el-input",
           props: {
             size: "small",
             placeholder: "测试输入框"
@@ -29,7 +29,7 @@ export default {
           label: "输入框"
         },
         {
-          tag: "el-select",
+          component: "el-select",
           props: {
             size: "small",
             multiple: true,
@@ -63,7 +63,7 @@ export default {
           label: "选择框1"
         },
         {
-          tag: "el-select",
+          component: "el-select",
           props: {
             size: "small",
             placeholder: "测试输入框为对象的情况"
@@ -79,7 +79,7 @@ export default {
           label: "选择框2"
         },
         {
-          tag: "el-date-picker",
+          component: "el-date-picker",
           props: {
             size: "small",
             placeholder: "日期选择"
@@ -91,7 +91,7 @@ export default {
           label: "日期选择"
         },
         {
-          tag: "el-switch",
+          component: "el-switch",
           props: {
             size: "small",
             placeholder: "日期选择"
@@ -103,7 +103,7 @@ export default {
           label: "开关"
         },
         {
-          tag: "el-radio",
+          component: "el-radio",
           props: {
             placeholder: "单选框"
           },
@@ -114,7 +114,7 @@ export default {
           label: "单选框Array"
         },
         {
-          tag: "el-radio",
+          component: "el-radio",
           props: {
             placeholder: "单选框"
           },
@@ -125,7 +125,7 @@ export default {
           label: "单选框Array-OBJ"
         },
         {
-          tag: "el-checkbox",
+          component: "el-checkbox",
           props: {
             size: "small",
             placeholder: "复选框"
@@ -137,9 +137,9 @@ export default {
           label: "复选框Array"
         },
         {
-          tag: "el-custom",
+          component: "el-custom",
           render: (h, p) => {
-            return h("div", p.tag);
+            return h("div", p.component);
           },
           model: "custom",
           label: "自定义"

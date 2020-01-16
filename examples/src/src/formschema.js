@@ -9,7 +9,7 @@ const baseConfig = {
 export default {
   name: "formJsonSchemas",
   props: {
-    schemas: {
+    uiSchemas: {
       type: Array,
       default: () => []
     },
@@ -157,7 +157,7 @@ export default {
       const vm = this;
       const { formConfig } = vm;
       const children = [];
-      const tagsMap = {
+      const componentMap = {
         "el-input": vm.handleRenderCommonItems,
         "el-select": vm.handleRenderSelect,
         "el-date-picker": vm.handleRenderCommonItems,
@@ -166,8 +166,8 @@ export default {
         "el-custom": vm.handleRenderCustom
       };
 
-      vm.schemas.map(item => {
-        if (tagsMap[item.tag]) {
+      vm.uiSchemas.map(item => {
+        if (componentMap[item.component]) {
           const formItem = h(
             formConfig.inline ? "el-col" : "div",
             {
@@ -187,7 +187,7 @@ export default {
                 },
                 item.render
                   ? [item.render(h, item)]
-                  : [...tagsMap[item.tag](h, item)]
+                  : [...componentMap[item.component](h, item)]
               )
             ]
           );
@@ -223,7 +223,7 @@ export default {
       } = this;
 
       return [
-        h(item.tag, {
+        h(item.component, {
           props: {
             value,
             size,
@@ -249,7 +249,7 @@ export default {
 
       return [
         h(
-          item.tag,
+          item.component,
           {
             props: {
               value,

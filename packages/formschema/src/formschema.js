@@ -1,9 +1,15 @@
-import Render from "./render";
+const baseConfig = {
+  size: "mini",
+  labelWidth: "80px",
+  labelPosition: "right",
+  inline: false,
+  componentWidth: 12
+};
 
 export default {
   name: "formJsonSchemas",
   props: {
-    schemas: {
+    uiSchemas: {
       type: Array,
       default: () => []
     },
@@ -13,18 +19,13 @@ export default {
     },
     config: {
       type: Object,
-      default() {
-        return {
-          size: "size",
-          labelWidth: "150px",
-          labelPosition: "right",
-          inline: true
-        };
-      }
+      default: () => {}
     }
   },
-  components: {
-    Render
+  computed: {
+    formConfig() {
+      return { ...baseConfig, ...this.config };
+    }
   },
   data() {
     return {
@@ -33,7 +34,7 @@ export default {
   },
   render(h) {
     const {
-      config: { labelWidth, labelPosition, inline }
+      formConfig: { labelWidth, labelPosition, inline }
     } = this;
 
     return h(
@@ -48,10 +49,12 @@ export default {
         ref: "formData"
       },
       [
-        ...(this.$slots.prepend || []),
-        ...this.renderFormItems(h),
-        ...this.renderButtomItems(h),
-        ...(this.$slots.append || [])
+        h("el-row", {}, [
+          ...(this.$slots.prepend || []),
+          ...this.renderFormItems(h),
+          ...this.renderButtomItems(h),
+          ...(this.$slots.append || [])
+        ])
       ]
     );
   },
@@ -84,52 +87,64 @@ export default {
     renderButtomItems(h) {
       const vm = this;
       const {
-        config: { size }
+        formConfig: { size, labelWidth, componentWidth, inline }
       } = vm;
 
       return [
         h(
-          "el-form-item",
+          inline ? "el-col" : "div",
           {
-            props: {}
+            props: {
+              span: componentWidth
+            }
           },
           [
             h(
-              "el-button",
+              "el-form-item",
               {
                 props: {
-                  size: size
-                },
-                on: {
-                  click() {
-                    vm.$refs.formData.resetFields();
-                    vm.$emit("cancel", { ...vm.formData });
-                  }
+                  size,
+                  labelWidth
                 }
               },
-              "取消"
-            ),
-            h(
-              "el-button",
-              {
-                props: {
-                  size: size,
-                  type: "primary"
-                },
-                on: {
-                  click() {
-                    vm.$refs.formData.validate(valid => {
-                      if (valid) {
-                        vm.$emit("submit", { ...vm.formData });
-                      } else {
-                        console.log("error submit!!");
-                        return false;
+              [
+                h(
+                  "el-button",
+                  {
+                    props: {
+                      size
+                    },
+                    on: {
+                      click() {
+                        vm.$refs.formData.resetFields();
+                        vm.$emit("cancel", { ...vm.formData });
                       }
-                    });
-                  }
-                }
-              },
-              "确定"
+                    }
+                  },
+                  "取消"
+                ),
+                h(
+                  "el-button",
+                  {
+                    props: {
+                      size,
+                      type: "primary"
+                    },
+                    on: {
+                      click() {
+                        vm.$refs.formData.validate(valid => {
+                          if (valid) {
+                            vm.$emit("submit", { ...vm.formData });
+                          } else {
+                            return false;
+                          }
+                        });
+                      }
+                    }
+                  },
+                  "确定"
+                )
+              ]
             )
           ]
         )
@@ -140,8 +155,9 @@ export default {
      */
     renderFormItems(h) {
       const vm = this;
+      const { formConfig } = vm;
       const children = [];
-      const tagsMap = {
+      const componentMap = {
         "el-input": vm.handleRenderCommonItems,
         "el-select": vm.handleRenderSelect,
         "el-date-picker": vm.handleRenderCommonItems,
@@ -150,20 +166,30 @@ export default {
         "el-custom": vm.handleRenderCustom
       };
 
-      vm.schemas.map(item => {
-        if (tagsMap[item.tag]) {
+      vm.uiSchemas.map(item => {
+        if (componentMap[item.component]) {
           const formItem = h(
-            "el-form-item",
+            formConfig.inline ? "el-col" : "div",
             {
               props: {
-                rules: [...(item.rule || [])],
-                label: item.label,
-                prop: item.model
+                span: formConfig.componentWidth
               }
             },
-            item.render
-              ? [item.render(h, item)]
-              : [...tagsMap[item.tag](h, item)]
+            [
+              h(
+                "el-form-item",
+                {
+                  props: {
+                    rules: [...(item.rule || [])],
+                    label: item.label,
+                    prop: item.model
+                  }
+                },
+                item.render
+                  ? [item.render(h, item)]
+                  : [...componentMap[item.component](h, item)]
+              )
+            ]
           );
 
           children.push(formItem);
@@ -193,11 +219,11 @@ export default {
     handleRenderCommonItems(h, item) {
       const { modelEvents, value } = this.handleModel(item);
       const {
-        config: { size }
+        formConfig: { size }
       } = this;
 
       return [
-        h(item.tag, {
+        h(item.component, {
           props: {
             value,
             size,
@@ -218,12 +244,12 @@ export default {
       const { modelEvents, value } = this.handleModel(item);
       let children = this.handleRenderChildren(h, item, "el-option");
       const {
-        config: { size }
+        formConfig: { size }
       } = this;
 
       return [
         h(
-          item.tag,
+          item.component,
           {
             props: {
               value,
@@ -303,7 +329,7 @@ export default {
      */
     handleRenderRadio(h, item) {
       const {
-        config: { size }
+        formConfig: { size }
       } = this;
       const { modelEvents, value } = this.handleModel(item);
       let children = this.handleRenderChildren(h, item, "el-radio");
@@ -331,13 +357,7 @@ export default {
      * 自定义部门
      */
     handleRenderCustom(h, item) {
-      return [
-        h("render", {
-          props: {
-            render: item.render
-          }
-        })
-      ];
+      return item.render(h, item);
     }
   }
 };

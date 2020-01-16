@@ -190,7 +190,7 @@ export default {
       }
 
       return {
-        tag: "el-select",
+        component: "el-select",
         props: prop,
         events: {},
         rule: rules,

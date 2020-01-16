@@ -1,17 +1,25 @@
 {
   "name": "el-form-schema",
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "lerna": "^3.20.2",
+    "webpack-cli": "^3.3.10"
   },
-  "dependencies": {},
+  "dependencies": {
+    "babel-loader": "^8.0.6",
+    "eslint-friendly-formatter": "^4.0.1",
+    "path": "^0.12.7",
+    "vue-loader": "^15.8.3",
+    "webpack": "^4.41.5"
+  },
   "description": "## 背景",
   "version": "1.0.1",
-  "main": "packages/formschema/index.js",
+  "main": "dist/el-form-schema.js",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tag": "git tag v`node -p 'require(\"./package\").version'`"
   },
   "repository": {
     "type": "git",

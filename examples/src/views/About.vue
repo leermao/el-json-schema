@@ -110,7 +110,7 @@
         <el-col :span="12">
           <div class="current-ui">
             <el-form-shema
-              :schemas="schemas"
+              :ui-schemas="schemas"
               v-model="formValues"
               :config="config"
             ></el-form-shema>

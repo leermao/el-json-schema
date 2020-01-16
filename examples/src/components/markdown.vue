@@ -21,7 +21,7 @@ export default {
       this.content = `
         <template>
           <el-form-shema
-              :schemas="schemas"
+              :ui-schemas="schemas"
               v-model="formValues"
               :config="config"
             ></el-form-shema>

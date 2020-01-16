@@ -152,7 +152,7 @@ export default {
       }
 
       return {
-        tag: "el-date-picker",
+        component: "el-date-picker",
         props: prop,
         events: {},
         rule: rules,

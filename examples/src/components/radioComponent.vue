@@ -155,7 +155,7 @@ export default {
       }
 
       return {
-        tag: "el-radio",
+        component: "el-radio",
         props: prop,
         events: {},
         rule: rules,
