@@ -188,8 +188,6 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$emit("submit", this.handleResult());
-        } else {
-          console.log("error submit!!");
         }
       });
     },

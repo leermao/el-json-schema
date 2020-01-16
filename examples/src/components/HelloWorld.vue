@@ -165,9 +165,7 @@ export default {
     };
   },
   methods: {
-    handleSubmit(data) {
-      console.log(data);
-    }
+    handleSubmit() {}
   }
 };
 </script>

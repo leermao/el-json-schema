@@ -293,10 +293,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.handleResult());
           this.$emit("submit", this.handleResult());
-        } else {
-          console.log("error submit!!");
         }
       });
     },
