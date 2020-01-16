@@ -2,78 +2,88 @@
   <div class="input">
     <box title="input" type="danger">
       <el-form
-        :model="ruleForm"
+        :model="inputForm"
         :rules="rules"
-        ref="ruleForm"
+        ref="inputForm"
         label-width="100px"
-        class="demo-ruleForm"
+        class="demo-inputForm"
         size="mini"
         label-position="top"
       >
-        <box title="required" class="required">
+        <box title="必填" class="required">
           <el-form-item label="label" prop="label">
-            <el-input v-model="ruleForm.label"></el-input>
+            <el-input v-model="inputForm.label"></el-input>
           </el-form-item>
 
           <el-form-item label="name" prop="model">
-            <el-input v-model="ruleForm.model"></el-input>
+            <el-input v-model="inputForm.model"></el-input>
           </el-form-item>
         </box>
 
-        <box title="props" class="required">
-          <el-form-item label="type">
-            <el-select v-model="ruleForm.type" placeholder="请选择类型">
+        <box title="属性" class="required">
+          <el-form-item label="组件宽度">
+            <el-slider v-model="inputForm.componentWidth" :max="24"></el-slider>
+          </el-form-item>
+
+          <el-form-item label="input类型">
+            <el-select v-model="inputForm.type" placeholder="请选择类型">
               <el-option label="text" value="text"></el-option>
               <el-option label="textarea" value="textarea"></el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="输入框尺寸">
-            <el-select v-model="ruleForm.size" placeholder="请选择类型">
+            <el-select v-model="inputForm.size" placeholder="请选择类型">
               <el-option label="medium" value="medium"></el-option>
               <el-option label="small" value="small"></el-option>
               <el-option label="mini" value="mini"></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="maxlength">
-            <el-input-number v-model="ruleForm.maxlength"></el-input-number>
+          <el-form-item label="最大长度">
+            <el-input-number
+              v-model.number="inputForm.maxlength"
+            ></el-input-number>
           </el-form-item>
 
-          <el-form-item label="minlength">
-            <el-input-number v-model="ruleForm.minlength"></el-input-number>
+          <el-form-item label="最小长度">
+            <el-input-number
+              v-model.number="inputForm.minlength"
+            ></el-input-number>
           </el-form-item>
 
-          <el-form-item label="show-word-limit">
-            <el-switch v-model="ruleForm.showWordLimit"> </el-switch>
+          <el-form-item label="展示单词范围">
+            <el-switch v-model="inputForm.showWordLimit"> </el-switch>
           </el-form-item>
 
           <el-form-item label="输入框占位文本">
-            <el-input v-model="ruleForm.placeholder"></el-input>
+            <el-input v-model="inputForm.placeholder"></el-input>
           </el-form-item>
 
           <el-form-item label="是否显示切换密码图标">
-            <el-switch v-model="ruleForm.showPassword"> </el-switch>
+            <el-switch v-model="inputForm.showPassword"> </el-switch>
           </el-form-item>
 
           <el-form-item label="是否可清空">
-            <el-switch v-model="ruleForm.clearable"> </el-switch>
+            <el-switch v-model="inputForm.clearable"> </el-switch>
           </el-form-item>
 
           <el-form-item label="禁用">
-            <el-switch v-model="ruleForm.disabled"> </el-switch>
+            <el-switch v-model="inputForm.disabled"> </el-switch>
           </el-form-item>
         </box>
 
-        <el-form-item label="rules" prop="rules">
-          <el-input type="textarea" v-model="ruleForm.rules"></el-input>
-        </el-form-item>
+        <box title="校验规则" class="required">
+          <el-form-item label="校验规则" prop="rules">
+            <el-input type="textarea" v-model="inputForm.rules"></el-input>
+          </el-form-item>
+        </box>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">
+          <el-button type="primary" @click="submitForm('inputForm')">
             立即创建
           </el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button @click="resetForm('inputForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </box>
@@ -87,18 +97,21 @@ const checkRule = (rule, value, callback) => {
   }
 
   try {
-    if (typeof JSON.parse(value) == "object") {
+    const val = JSON.parse(value);
+    if (Array.isArray(val) && typeof val == "object") {
       return callback();
+    } else {
+      return callback("输入内容必须为JSON内容");
     }
   } catch (e) {
-    return callback("输入内容必须为[{内容}]");
+    return callback("输入内容必须为JSON内容");
   }
 };
 
 export default {
   data() {
     return {
-      ruleForm: {
+      inputForm: {
         label: "input",
         model: "input",
         type: "text",
@@ -109,7 +122,8 @@ export default {
         minlength: "",
         maxlength: "",
         size: "small",
-        rules: ""
+        rules: "",
+        componentWidth: 24
       },
       rules: {
         label: [{ required: true, message: "请输入label", trigger: "blur" }],
@@ -123,7 +137,7 @@ export default {
   },
   methods: {
     handleResult() {
-      const { rules, label, model, ...prop } = this.ruleForm;
+      const { rules, label, model, ...prop } = this.inputForm;
 
       for (let i in prop) {
         if (prop[i] === "") {

@@ -46,7 +46,8 @@ Vue.use(FormsShema);
             },
             rule: [],
             model: "name",
-            label: "输入框"
+            label: "输入框",
+            componentWidth: 12
           },
           {
             tag: "el-select",
@@ -198,15 +199,16 @@ Vue.use(FormsShema);
 
 schemas 参数：
 
-| First Header |         Second Header |                    Eg                     |
-| ------------ | --------------------: | :---------------------------------------: |
-| tag          |        渲染组件的名字 |                'el-input'                 |
-| props        |      对应组件的 props | {size: "small",placeholder: "测试输入框"} |
-| events       |        当前组件的事件 |                {click(){}}                |
-| rule         |    当前组件的校验规则 |            [{required: true}]             |
-| model        |    当前组件的 v-model |                                           |
-| label        | 当前组件的 label 名称 |                  '测试'                   |
-| render       |  当前组件的自定义渲染 |                 Function                  |
+| First Header   |         Second Header |                    Eg                     |
+| -------------- | --------------------: | :---------------------------------------: |
+| tag            |        渲染组件的名字 |                'el-input'                 |
+| props          |      对应组件的 props | {size: "small",placeholder: "测试输入框"} |
+| events         |        当前组件的事件 |                {click(){}}                |
+| rule           |    当前组件的校验规则 |            [{required: true}]             |
+| model          |    当前组件的 v-model |                                           |
+| label          | 当前组件的 label 名称 |                  '测试'                   |
+| render         |  当前组件的自定义渲染 |                 Function                  |
+| componentWidth |        覆盖组件的宽度 |                    12                     |
 
 ## 效果
 

@@ -10,7 +10,7 @@
         size="mini"
         label-position="top"
       >
-        <box title="required" class="required">
+        <box title="必填" class="required">
           <el-form-item label="label" prop="label">
             <el-input v-model="radioForm.label"></el-input>
           </el-form-item>
@@ -20,7 +20,11 @@
           </el-form-item>
         </box>
 
-        <box title="props" class="required">
+        <box title="属性" class="required">
+          <el-form-item label="组件宽度">
+            <el-slider v-model="radioForm.componentWidth" :max="24"></el-slider>
+          </el-form-item>
+
           <el-form-item label="是否显示边框">
             <el-switch v-model="radioForm.border"> </el-switch>
           </el-form-item>
@@ -38,7 +42,7 @@
           </el-form-item>
         </box>
 
-        <box title="options" class="required">
+        <box title="子节点Options" class="required">
           <el-select
             v-model="radioForm.optionType"
             placeholder="请选择类型"
@@ -78,9 +82,11 @@
           </el-form-item>
         </box>
 
-        <el-form-item label="rules" prop="rules">
-          <el-input type="textarea" v-model="radioForm.rules"></el-input>
-        </el-form-item>
+        <box title="校验规则" class="required">
+          <el-form-item label="规则" prop="rules">
+            <el-input type="textarea" v-model="radioForm.rules"></el-input>
+          </el-form-item>
+        </box>
 
         <el-form-item>
           <el-button type="primary" @click="submitForm('radioForm')">
@@ -100,11 +106,14 @@ const checkRule = (rule, value, callback) => {
   }
 
   try {
-    if (typeof JSON.parse(value) == "object") {
+    const val = JSON.parse(value);
+    if (Array.isArray(val) && typeof val == "object") {
       return callback();
+    } else {
+      return callback("输入内容必须为JSON内容");
     }
   } catch (e) {
-    return callback("输入内容必须为[{内容}]");
+    return callback("输入内容必须为JSON内容");
   }
 };
 
@@ -119,7 +128,8 @@ export default {
         size: "small",
         rules: "",
         border: false,
-        disabled: false
+        disabled: false,
+        componentWidth: 24
       },
       rules: {
         label: [{ required: true, message: "请输入label", trigger: "blur" }],

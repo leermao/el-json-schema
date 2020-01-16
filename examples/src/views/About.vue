@@ -192,7 +192,7 @@ export default {
         labelWidth: 80,
         componentWidth: 24,
         size: "mini",
-        labelPosition: ""
+        labelPosition: "right"
       },
       schemas: [],
       formValues: {},

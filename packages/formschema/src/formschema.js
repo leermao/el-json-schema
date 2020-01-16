@@ -172,7 +172,7 @@ export default {
             formConfig.inline ? "el-col" : "div",
             {
               props: {
-                span: formConfig.componentWidth
+                span: item.componentWidth || formConfig.componentWidth
               }
             },
             [
