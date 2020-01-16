@@ -5,7 +5,7 @@
   },
   "dependencies": {},
   "description": "## 背景",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "packages/formschema/index.js",
   "directories": {
     "example": "examples"

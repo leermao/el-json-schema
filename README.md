@@ -7,7 +7,7 @@
 ## 引入
 
 ```javascript
-import FormsShema from "elFormSchema";
+import FormsShema from "el-form-schema";
 Vue.use(FormsShema);
 ```
 
