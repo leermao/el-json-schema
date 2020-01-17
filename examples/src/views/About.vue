@@ -3,13 +3,13 @@
     <el-card class="box-card">
       <div class="setting">设置</div>
       <el-form ref="form" :model="form" label-width="150px" size="small">
-        <el-col :span="8">
+        <!-- <el-col :span="8">
           <el-form-item label="表单类型">
             <el-radio-group v-model="form.type">
               <el-radio label="1">列表查询</el-radio>
             </el-radio-group>
           </el-form-item>
-        </el-col>
+        </el-col> -->
 
         <el-col :span="8">
           <el-form-item label="表单内组件的尺寸">
@@ -87,54 +87,107 @@
 
     <el-card class="box-card">
       <div class="setting">当前组件UI</div>
-      <el-row :gutter="30" v-if="schemas.length">
-        <el-col :span="6">
-          <fieldset class="current-components">
-            <legend>Restore:</legend>
-            <draggable v-model="schemas">
-              <div
-                class="component"
-                v-for="(item, index) in schemas"
-                :key="index"
-              >
-                <div>
-                  <div class="row">
-                    <h5 class="red">标签:</h5>
-                    {{ item.component }}
+
+      <div v-if="schemas.length">
+        <el-row :gutter="5">
+          <el-col :span="8">
+            <fieldset class="current-components">
+              <legend>使用方式:只读</legend>
+              <el-input
+                :value="strHtml"
+                type="textarea"
+                rows="9"
+                readonly
+              ></el-input>
+            </fieldset>
+          </el-col>
+
+          <el-col :span="8">
+            <fieldset class="current-components">
+              <legend>v-model值:只读</legend>
+              <el-input
+                :value="JSON.stringify(formValues, null, 4)"
+                type="textarea"
+                readonly
+                rows="9"
+              ></el-input>
+            </fieldset>
+          </el-col>
+
+          <el-col :span="8">
+            <fieldset class="current-components">
+              <legend>config值:只读</legend>
+              <el-input
+                :value="JSON.stringify(form, null, 4)"
+                type="textarea"
+                readonly
+                rows="9"
+              ></el-input>
+            </fieldset>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="10">
+          <el-col :span="6">
+            <fieldset class="current-components">
+              <legend>Restore:</legend>
+              <draggable v-model="schemas">
+                <div
+                  class="component"
+                  v-for="(item, index) in schemas"
+                  :key="index"
+                >
+                  <div>
+                    <div class="row">
+                      <h5 class="red">标签:</h5>
+                      {{ item.component }}
+                    </div>
+                    <div class="row">
+                      <h5 class="red">名称:</h5>
+                      {{ item.label }}
+                    </div>
+                    <div class="row">
+                      <h5 class="red">v-model key:</h5>
+                      {{ item.model }}
+                    </div>
+                    <div class="row">
+                      <h5 class="red">v-model value:</h5>
+                      {{ formValues[item.model] }}
+                    </div>
                   </div>
-                  <div class="row">
-                    <h5 class="red">名称:</h5>
-                    {{ item.label }}
-                  </div>
-                  <div class="row">
-                    <h5 class="red">v-model key:</h5>
-                    {{ item.model }}
-                  </div>
-                  <div class="row">
-                    <h5 class="red">v-model value:</h5>
-                    {{ formValues[item.model] }}
-                  </div>
+
+                  <i
+                    class="el-icon-delete-solid"
+                    @click="handleRemove(index)"
+                  ></i>
                 </div>
+              </draggable>
+            </fieldset>
+          </el-col>
 
-                <i
-                  class="el-icon-delete-solid"
-                  @click="handleRemove(index)"
-                ></i>
-              </div>
-            </draggable>
-          </fieldset>
-        </el-col>
+          <el-col :span="10">
+            <div class="current-ui">
+              <el-form-shema
+                :ui-schemas="schemas"
+                v-model="formValues"
+                :config="config"
+                @submit="dialogVisible = true"
+              ></el-form-shema>
+            </div>
+          </el-col>
 
-        <el-col :span="18">
-          <div class="current-ui">
-            <el-form-shema
-              :ui-schemas="schemas"
-              v-model="formValues"
-              :config="config"
-            ></el-form-shema>
-          </div>
-        </el-col>
-      </el-row>
+          <el-col :span="8">
+            <fieldset class="current-components">
+              <legend>ui-schema:可写</legend>
+              <el-input
+                v-model="strSchemas"
+                type="textarea"
+                rows="9"
+              ></el-input>
+            </fieldset>
+          </el-col>
+        </el-row>
+      </div>
     </el-card>
 
     <el-drawer
@@ -163,6 +216,10 @@
       <other-component v-if="tag === 'other'" @submit="handleSubmit">
       </other-component>
     </el-drawer>
+
+    <el-dialog title="代码" :visible.sync="dialogVisible" width="70%">
+      <pre>{{ strSchemas }}</pre>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -174,6 +231,18 @@ import switchComponent from "../components/switchComponent.vue";
 import otherComponent from "../components/otherComponent.vue";
 
 import draggable from "vuedraggable";
+const html = `js:
+import FormsShema from "el-form-schema";
+Vue.use(FormsShema);
+
+template:
+<el-form-shema
+  :ui-schemas="schemas"
+  v-model="formValues"
+  :config="config"
+></el-form-shema>
+`;
+
 export default {
   data() {
     return {
@@ -188,8 +257,10 @@ export default {
         labelPosition: "right"
       },
       schemas: [],
+      strSchemas: JSON.stringify([]),
       formValues: {},
-      dialogVisible: false
+      dialogVisible: false,
+      strHtml: html
     };
   },
   components: {
@@ -206,6 +277,22 @@ export default {
       return { ...this.form, labelWidth: this.form.labelWidth + "px" };
     }
   },
+
+  watch: {
+    strSchemas: {
+      deep: true,
+      immediate: true,
+      handler(value) {
+        try {
+          console.log(value);
+          this.schemas = JSON.parse(value);
+        } catch (err) {
+          console.error("[JSON Parse Error] -> ", err.message);
+        }
+      }
+    }
+  },
+
   methods: {
     handleDrawer(tag) {
       this.tag = tag;
@@ -215,6 +302,8 @@ export default {
     handleSubmit(data) {
       this.formValues[data.model] = "";
       this.schemas.push(data);
+
+      this.strSchemas = JSON.stringify(this.schemas, null, 4);
 
       this.handleClose();
     },
@@ -226,6 +315,8 @@ export default {
 
     handleRemove(index) {
       this.schemas.splice(index, 1);
+
+      this.strSchemas = JSON.stringify(this.schemas, null, 4);
     }
   }
 };
