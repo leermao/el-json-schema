@@ -1,4 +1,7 @@
 module.exports = {
+  devServer: {
+    port: 7000
+  },
   configureWebpack: config => {
     config.module.rules.push({
       // 处理markdown文件
