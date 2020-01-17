@@ -7,7 +7,7 @@ Demo 可以快速生成 json
 
 ## DEMO
 
-[DOMO](http://152.136.31.37:7000/ui)
+[DOMO](http://152.136.31.37:7000)
 
 ![](assest/eg.gif)
 

@@ -16,7 +16,7 @@
     "vue-loader": "^15.8.3"
   },
   "description": "基于element-ui的表单查询jsom-schema",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "dist/el-form-schema.js",
   "directories": {
     "example": "examples"
