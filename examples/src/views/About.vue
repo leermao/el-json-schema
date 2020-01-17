@@ -78,6 +78,10 @@
           switch
           <i class="el-icon-plus"></i>
         </el-button>
+        <el-button @click="handleDrawer('other')">
+          other
+          <i class="el-icon-plus"></i>
+        </el-button>
       </div>
     </el-card>
 
@@ -121,7 +125,7 @@
           </fieldset>
         </el-col>
 
-        <el-col :span="12">
+        <el-col :span="18">
           <div class="current-ui">
             <el-form-shema
               :ui-schemas="schemas"
@@ -129,12 +133,6 @@
               :config="config"
             ></el-form-shema>
           </div>
-        </el-col>
-
-        <el-col :span="3">
-          <el-button type="warning" size="mini" @click="dialogVisible = true">
-            使用
-          </el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -161,15 +159,10 @@
 
       <date-component v-if="tag === 'date-picker'" @submit="handleSubmit">
       </date-component>
-    </el-drawer>
 
-    <el-dialog :visible.sync="dialogVisible" width="50%" v-if="dialogVisible">
-      <markdown
-        :form="form"
-        :schemas="schemas"
-        :formValues="formValues"
-      ></markdown>
-    </el-dialog>
+      <other-component v-if="tag === 'other'" @submit="handleSubmit">
+      </other-component>
+    </el-drawer>
   </div>
 </template>
 <script>
@@ -178,8 +171,8 @@ import selectComponent from "../components/selectComponent.vue";
 import radioComponent from "../components/radioComponent.vue";
 import dateComponent from "../components/dateComponent.vue";
 import switchComponent from "../components/switchComponent.vue";
+import otherComponent from "../components/otherComponent.vue";
 
-import markdown from "../components/markdown.vue";
 import draggable from "vuedraggable";
 export default {
   data() {
@@ -201,11 +194,11 @@ export default {
   },
   components: {
     inputComponent,
-    markdown,
     selectComponent,
     radioComponent,
     dateComponent,
     switchComponent,
+    otherComponent,
     draggable
   },
   computed: {
@@ -291,9 +284,5 @@ export default {
   background: #ddd;
   margin: 10px;
   padding: 20px;
-
-  .el-form-item__label {
-    background: rgb(24, 142, 28);
-  }
 }
 </style>
