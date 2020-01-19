@@ -213,6 +213,13 @@ schemas 参数：
 | keyVal         | 含有 options 属性的子节点展示的 key (radio/select) | 'name'                                    |
 | labelVal       | 含有 options 属性的子节点展示的 label              | 'value'                                   |
 
+slot
+
+| Name    | 含义    |
+| ------- | ------- |
+| prepend | form 前 |
+| append  | form 后 |
+
 ## 效果
 
 ![](assest/eg.png)
